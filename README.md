@@ -62,6 +62,36 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 
 ---
 
+## 🌐 The "Web App" Domain Overlay & Real-World Stack Examples
+
+The Software Factory is organized in three distinct architectural layers to eliminate copy-paste configuration drift:
+
+```text
+[ Layer 0: Core Factory ] (SDD, Scrum Master, Red-Green TDD, Git Governance, LLM Cost Proxy)
+         ▲
+         │ inherits & extends
+[ Layer 1: domain-webapp ] (Contract-First OpenAPI, Frontend/Backend Role Decoupling)
+         ▲
+         │ specializes for concrete frameworks
+[ Layer 2: Concrete Tech-Stack Profiles ]
+         ├── mbargo-reporting    (Angular 21 + Play Framework 3 + Jest)
+         └── mbargo-admin-webtop (Apache Wicket 9.x + Java 17 + Tomcat + WicketTester)
+```
+
+### Stack Profile 1: `mbargo-reporting` (Modern Reactive SPA + Microservices)
+* **Location:** `.agents/skills/software-factory/extensions/domain-webapp/stacks/mbargo-reporting/`
+* **Architecture:** Angular 21 (Standalone components, Signals, Bootstrap 5) + Play Framework 3 (Java 17 / Scala 3, sbt).
+* **Test Tooling:** Jest in `/ui` (`npm test -- --watchAll=false`) and JUnit 5 via `sbt test`.
+* **Domain Guard:** Enforces reuse of `shared-export-utils.ts` (adaptive font scaling, base64 stripping, error re-throwing) and billboard.js patch management.
+
+### Stack Profile 2: `mbargo-admin-webtop` (Server-Rendered Java Enterprise)
+* **Location:** `.agents/skills/software-factory/extensions/domain-webapp/stacks/mbargo-admin-webtop/`
+* **Architecture:** Apache Wicket 9.22.0 + Java 17 LTS + Apache Maven (WAR packaging to Apache Tomcat).
+* **Test Tooling:** `WicketTester` + JUnit under `src/test/java/` (`mvn clean install -P test`).
+* **Domain Guard:** 1:1 pairing of Java classes and HTML markup with synchronized `wicket:id` bindings; mandatory `IModel<T>` state detachment to prevent session leaks; parameterized SQL Server DAOs.
+
+---
+
 ## 📁 Repository Structure
 
 ```text
@@ -89,14 +119,14 @@ A modular, evolvable Software Factory enabling software engineers to build and o
             │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing & escalation concept
             │   └── templates/
             │       └── model-eval-schema.json         # JSON schema for token costs & QA tracking
-            └── extensions/                            # 🚀 MODULAR DOMAIN OVERLAYS
+            └── extensions/                            # 🚀 MODULAR DOMAIN OVERLAYS (Layer 1)
                 └── domain-webapp/
                     ├── EXTENSION.md                   # WebApp architecture & Contract-First doc
                     ├── templates/
                     │   └── api-contract.yaml          # OpenAPI 3.0 Contract Standard
                     ├── prompts/
-                    │   ├── frontend-agent.md          # UI, a11y, State, Mock APIs
-                    │   └── backend-agent.md           # API Compliance, Security, DB Migrations
+                    │   ├── frontend-agent.md          # Generic UI, a11y, State, Mock APIs
+                    │   └── backend-agent.md           # Generic API Compliance, Security, DB Migrations
                     └── stacks/                        # ⚡ CONCRETE TECH-STACK PROFILES (Layer 2)
                         ├── mbargo-reporting/          # Angular 21 + Play Framework 3 BI Stack
                         │   ├── STACK.md               # Tooling, paths, commands & reuse rules
@@ -111,8 +141,8 @@ A modular, evolvable Software Factory enabling software engineers to build and o
                             ├── templates/
                             │   └── kickoff-webtop-template.md
                             └── prompts/
-                                ├── wicket-engineer-agent.md  # HTML/Java pairs, IModel, POI exports
-                                └── test-engineer-webtop.md   # WicketTester, DAO & edge-case testing
+                                ├── wicket-engineer-agent.md
+                                └── test-engineer-webtop.md
 ```
 
 ---
@@ -127,18 +157,3 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 | **Coding Agent** | Application code implementation | **Follow Skeleton & Reuse First:** Search workspace before creating files; never write own tests. |
 | **Test Engineer Agent** | Test suite, AC coverage, edge cases | **Target Skeleton Signatures:** Never write app code; test objectively against the spec. |
 | **QA Gatekeeper** | TDD Certifier, Test Runner, Anti-Duplication Guard | **Red-Green TDD:** Confirm tests fail on stubs first, then pass on implementation; verify zero duplicates. |
-
----
-
-## 🗺️ Supported Tech-Stack Profiles
-
-1. **`mbargo-reporting` (Modern SPA + Microservices):**
-   * Angular 21 (Standalone components, Signals, Bootstrap 5, Jest in `/ui`).
-   * Play Framework 3.0.x (Java 17 / Scala 3, sbt).
-   * Strict reuse of `shared-export-utils.ts` and billboard.js patch management.
-2. **`mbargo-admin-webtop` (Server-Rendered Java Enterprise):**
-   * Apache Wicket 9.22.0 + Java 17 LTS (WAR deployed to Tomcat).
-   * Component & Markup pairing (`*.java` + `*.html` with matching `wicket:id`).
-   * Memory & state isolation via `IModel<T>` (`LoadableDetachableModel`).
-   * Microsoft SQL Server persistence & Apache POI 5.5.1 Excel reporting.
-   * Maven build profile verification: `mvn clean install -P test`.
