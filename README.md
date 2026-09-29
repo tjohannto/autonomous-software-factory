@@ -62,6 +62,97 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 
 ---
 
+## 🚀 How to Use: Integrating into Existing Repositories
+
+You can integrate this Software Factory into any existing repository in two ways: **manually** or **via an AI-driven bootstrap prompt**.
+
+---
+
+### Option A: Manual Integration (Step-by-Step)
+
+Follow these steps to equip any existing codebase with the factory:
+
+#### Step 1: Copy the Factory Skill
+Copy the `.agents/` folder from this repo into your target project:
+```bash
+cp -r /path/to/autonomous-software-factory/.agents /path/to/your-repo/
+```
+
+#### Step 2: Initialize Governance Directories & Branches
+Ensure your repository has integration branches and operational folders:
+```bash
+cd /path/to/your-repo
+
+# Create required factory directories
+mkdir -p specs tasks logs
+
+# Ensure dev and main branches exist
+git checkout -b dev
+git push -u origin dev
+```
+
+#### Step 3: Pick or Create Your Tech-Stack Profile
+* If your project is an **Angular 21 + Play 3** app, activate:  
+  `.agents/skills/software-factory/extensions/domain-webapp/stacks/mbargo-reporting/`
+* If your project is an **Apache Wicket 9 + Java 17** app, activate:  
+  `.agents/skills/software-factory/extensions/domain-webapp/stacks/mbargo-admin-webtop/`
+* **For a new stack:** Duplicate one of the stack folders, rename it, and adjust `STACK.md` with your build commands (e.g. `npm test`, `pytest`, `cargo test`) and existing utility paths for "Reuse-First".
+
+#### Step 4: Run Your First Story
+Start by calling the **Interview Agent** with your feature idea or voice transcript.
+
+---
+
+### Option B: Prompt-Driven Integration (Zero-Touch AI Bootstrap)
+
+Open your AI assistant (Antigravity, Cursor, GitHub Copilot, or Claude Code) inside your existing repository and paste the following bootstrap prompt:
+
+````markdown
+You are now adopting the "Autonomous Software Factory" architecture into this repository.
+
+Follow these bootstrapping steps:
+1. **Analyze Tech Stack:**
+   - Detect the languages, frameworks, package managers, and build tools in this workspace.
+   - Locate the test runners and the exact verification commands (e.g., `npm test`, `pytest`, `mvn test`).
+2. **Catalog Reusable Modules (Anti-Greenfield Guard):**
+   - Identify existing shared utilities, base components, database access layers, and API clients.
+   - List them explicitly as mandatory "Reuse-First" modules.
+3. **Install Factory Assets:**
+   - Clone or copy `.agents/skills/software-factory` into `.agents/skills/software-factory`.
+   - Create a dedicated stack profile under `.agents/skills/software-factory/extensions/domain-webapp/stacks/<detected-stack>/`:
+     - `STACK.md`: Set commands, paths, and package manager constraints.
+     - `prompts/`: Tailor coder and SDET prompts to match local conventions.
+     - `templates/kickoff-<stack>-template.md`: Interface skeleton template.
+4. **Git Hygiene & Verification:**
+   - Check if `dev` branch exists; create it if missing.
+   - Create `specs/`, `tasks/`, and `logs/` directories.
+5. **Report Readiness:**
+   - Print a summary of the detected stack, verification commands, and reusable modules.
+   - Signal: `[FACTORY_READY] The Autonomous Software Factory is active. Tell me what feature to build!`
+````
+
+---
+
+### Daily Feature Lifecycle (How You Work With It)
+
+Once installed, your day-to-day workflow looks like this:
+
+1. **Ideation:** Tell the Interview Agent: *"I want to add CSV export to the customer dashboard."*
+2. **Scrum Slicing:** The Interview Agent asks 1–2 clarifying questions and writes `specs/02-csv-export.md`.
+3. **Task Packaging:** The Scrum Master defines the Interface Skeleton in `tasks/kickoff-csv-export.md`.
+4. **Autonomous Parallel Work:**
+   * The **Coding Agent** implements the feature on `feat/02-csv-export` using existing export utils.
+   * The **Test Engineer (SDET)** writes independent tests covering edge cases.
+5. **Automated QA Gate:** 
+   * QA verifies **Red-Green TDD** (tests fail on empty stubs first, then pass on implementation).
+   * QA inspects git diff for duplicate code and secret leaks.
+6. **Preview & Release:** 
+   * QA squash-merges into `dev`.
+   * The Interview Agent presents an interactive preview / CLI demo to you.
+   * You say: *"Looks great, ship it!"* $\rightarrow$ Release PR merges into `main`.
+
+---
+
 ## 🌐 The "Web App" Domain Overlay & Real-World Stack Examples
 
 The Software Factory is organized in three distinct architectural layers to eliminate copy-paste configuration drift:
