@@ -1,49 +1,59 @@
-# Autonomous Software Factory (Core & WebApp Overlay)
+# Autonomous Software Factory (Core, WebApp Overlay & Cost-Engine)
 
-Eine modulare, evolvierbare Software-Entwicklungsfabrik, die Software-Entwicklern ermöglicht, standardisierte Agenten-Teams aufzusetzen. Endanwender und Domänenexperten ("Vibecoder") steuern die Entwicklung über **Spec-Driven Development (SDD)**, Sprach- oder Texteingaben und deterministische Quality Gates – gehärtet durch **agile Story-Zerlegung (Scrum-Style)**, **doppelt abgesicherte Code-Wiederverwendung (Reuse First im Coder & QA)** und die Governance-Prinzipien moderner Multi-Agent-Systeme (inspiriert durch **NovaSmart Enterprise AI Governance**).
-
----
-
-## 🎯 Vision & Kernprinzipien
-
-1. **Scrum & Story-Slicing statt Monster-Specs:**
-   * Niemals Epics am Stück implementieren. Der Interview Agent schneidet große Ideen automatisch in mundgerechte User Stories (max. 1–3 REQs).
-2. **Reuse First (Doppelt geprüft gegen Greenfield-Spam):**
-   * **Im Coder:** Prüfpflicht vor dem Schreiben neuer Zeilen.
-   * **Im QA Gatekeeper:** Diff-Inspektion auf unnötige Duplikate. Erfindet der Coder das Rad neu, wird der PR abgelehnt!
-3. **Vier-Augen-Prinzip:**
-   * Rollentrennung: Der Coding Agent schreibt ausschließlich Produktivcode. Der unabhängige **Test Engineer Agent (SDET)** schreibt die Test-Suite gegen die Akzeptanzkriterien.
-4. **Deterministische QA & NovaSmart Governance:**
-   * QA Gatekeeper führt Tests in der Shell aus (Exit Code 0), scannt nach Secrets und erzwingt saubere Pull Requests nach `dev` via Squash & Merge.
+A modular, evolvable Software Factory enabling software engineers to build and operate standardized multi-agent teams. Domain experts and product owners ("Vibe Coders") drive software development via **Spec-Driven Development (SDD)**, voice/text memos, and deterministic quality gates — hardened by **agile Scrum story-slicing**, **context optimization**, **cost-efficient LLM routing**, and **enterprise multi-agent governance** (inspired by **NovaSmart Enterprise AI Governance**).
 
 ---
 
-## 🏛️ Der agile Fabrik-Workflow
+## 🎯 Vision & Core Principles
+
+1. **Scrum Slicing Instead of Giant Specs:**
+   * Never implement epics in a single prompt. The **Interview Agent** automatically breaks down large ideas into bite-sized user stories (max. 1–3 REQs per story).
+2. **Scrum Master as Context Optimizer:**
+   * Crafts tailored **kick-off prompts**, extracts minimal interface skeletons from existing code, and prevents context bloat (<3,000 tokens) and attention degradation.
+3. **Economic Efficiency via LLM-Model Proxy:**
+   * Three-tier routing (Tier 1: Heavyweight, Tier 2: Workhorse, Tier 3: Fast/Utility). Always starts with the most economical model and escalates only when edge cases fail.
+   * Full observability logging token costs, latency, and success rates (`Efficiency Score`).
+4. **Reuse-First (Double-Checked Against Greenfield Spam):**
+   * **In Coder:** Mandatory workspace research before creating new utility functions or components.
+   * **In QA Gatekeeper:** Git diff inspection against code duplication. Reinventing the wheel triggers an automatic rejection!
+5. **Four-Eyes Principle & Deterministic QA:**
+   * Role separation: The **Coding Agent** writes application code only. An independent **Test Engineer Agent (SDET)** writes test suites against acceptance criteria and edge cases.
+   * The **QA Gatekeeper** executes tests deterministically in a shell sandbox (only Exit Code 0 counts), screens for secret leaks, and prepares audited pull requests.
+
+---
+
+## 🏛️ Autonomous Factory Workflow
 
 ```text
-               [ Vibecoder (Voice/Text) ]
+               [ Vibe Coder (Voice / Text) ]
                             │
                             ▼
-                    [ Interview Agent ]  ◄── (Epic Decomposer: Schneidet Stories)
+                    [ Interview Agent ]  ◄── (Epic Decomposer: Slices User Stories)
                             │
-                            ▼ erzeugt
-                    [ specs/01-story.md ] ◄── (Scope, Code-Reuse, 1-3 REQs, ACs)
+                            ▼ generates
+                    [ specs/01-story.md ]
                             │
-            ┌───────────────┴───────────────┐ (Parallele Ausführung auf feat/01-story)
+                            ▼
+                  [ Scrum Master Agent ] ◄── (Builds Kick-off Prompt, Protects Context Window)
+                            │
+                            ▼
+                [ LLM Proxy / Cost Router ] (Routes Tier 1 / 2 / 3 by Task Type)
+                            │
+            ┌───────────────┴───────────────┐ (Parallel Execution on feat/01-story)
             ▼                               ▼
     [ Coding Agent ]             [ Test Engineer Agent ]
-    (Prüft Bestandscode,         (Schreibt Test-Suite & Edge Cases
-     schreibt Produktivcode)      unabhängig vom Coder)
+    (Inspects existing code,     (Writes Test Suite & Edge Cases
+     implements app code)         independently from coder)
             │                               │
             └───────────────┬───────────────┘
-                            ▼ Handoff an Sandbox
-                 [ QA Gatekeeper Agent ] ◄── (1. Tests ausführen, 2. Anti-Duplication Check)
+                            ▼ Handoff to Sandbox
+                 [ QA Gatekeeper Agent ] ◄── (1. Runs Tests, 2. Anti-Duplication Check)
                             │
        ┌────────────────────┴────────────────────────┐
-       ▼ [FAIL: Tests rot ODER Duplikate]            ▼ [PASS: Tests grün & Reuse OK]
-  [ review_feedback.md ]                     [ Auditierter Pull Request ]
-  (Retry Loop an Coder, max. 3x)             (PR-Template nach dev Branch)
-                                                     │
+       ▼ [FAIL: Tests Red OR Duplicates Found]       ▼ [PASS: Tests Green & Reuse OK]
+  [ review_feedback.md ]                     [ Audited Pull Request ]
+  (Retry loop with Scrum Master hint,        (PR Template targeting dev branch)
+   optional Proxy escalation to Tier 1)              │
                                                      ▼ Squash & Merge
                                               [ dev / Staging ]
                                                      │
@@ -53,61 +63,72 @@ Eine modulare, evolvierbare Software-Entwicklungsfabrik, die Software-Entwickler
 
 ---
 
-## 📁 Projektstruktur
+## 📁 Repository Structure
 
 ```text
 .
-├── README.md                                          # Diese Systemdokumentation
-├── specs/                                             # Historisierte User Stories (specs/01-xyz.md)
+├── README.md                                          # System documentation
+├── specs/                                             # Historic user stories (specs/01-xyz.md)
+├── logs/                                              # Evaluation & token cost logs (model-eval.jsonl)
+├── src/                                               # Production application code
+├── tests/                                             # Independent test suites
 └── .agents/
     └── skills/
         └── software-factory/
-            ├── SKILL.md                               # Base Skill-Definition
+            ├── SKILL.md                               # Base skill definition
             ├── templates/
-            │   ├── spec-template.md                   # Schlankes Spec-Template mit "Code Reuse First"
-            │   └── pr-template.md                     # Auditierter PR inkl. Reuse-Nachweis
+            │   ├── spec-template.md                   # Lean spec template with "Code Reuse First"
+            │   └── pr-template.md                     # Audited PR template with reuse verification
             ├── prompts/
             │   ├── interview-agent.md                 # PO, Scrum Master & Epic Decomposer
-            │   ├── coding-agent.md                    # Implementer (App-Code mit Reuse-First-Pflicht)
-            │   ├── test-engineer-agent.md             # Unabhängiger SDET (Test-Suite)
+            │   ├── scrum-master-agent.md              # Context Window Protection & Kick-off Prompts
+            │   ├── coding-agent.md                    # Implementer (App code with mandatory reuse)
+            │   ├── test-engineer-agent.md             # Independent SDET (Test suites & edge cases)
             │   ├── qa-agent.md                        # QA Gatekeeper (Runner & Anti-Duplication Guard)
-            │   └── git-governance.md                  # Branching-, Commit- & Release-Regeln
-            │
-            └── extensions/                            # 🚀 MODULARE DOMAIN OVERLAYS
+            │   └── git-governance.md                  # Branching, Conventional Commits & Release Rules
+            ├── proxy/                                 # 💰 LLM PROXY & COST CONTROLLING
+            │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing & escalation concept
+            │   └── templates/
+            │       └── model-eval-schema.json         # JSON schema for token costs & QA tracking
+            └── extensions/                            # 🚀 MODULAR DOMAIN OVERLAYS
                 └── domain-webapp/
-                    ├── EXTENSION.md                   # WebApp Architektur & Contract-First Doku
+                    ├── EXTENSION.md                   # WebApp architecture & Contract-First doc
                     ├── templates/
                     │   └── api-contract.yaml          # OpenAPI 3.0 Contract Standard
                     └── prompts/
-                        ├── frontend-agent.md          # UI, a11y, State, Mock-APIs
+                        ├── frontend-agent.md          # UI, a11y, State, Mock APIs
                         └── backend-agent.md           # API Compliance, Security, DB Migrations
 ```
 
 ---
 
-## 🚦 Rollen & Zuständigkeiten
+## 🚦 Roles & Responsibilities
 
-| Rolle | Primäre Verantwortung | Wichtigste Regel |
+| Role | Primary Responsibility | Cardinal Rule |
 | :--- | :--- | :--- |
-| **Interview Agent** | Product Owner, Scrum-Splitting, Spec-Erstellung | Erkennt Epics, schneidet max. 1–3 REQs pro Story; benennt wiederverwendbare Module. |
-| **Coding Agent** | Implementierung des Produktivcodes | **Reuse First:** Vorhandene Komponenten suchen und nutzen; keine eigenen Tests. |
-| **Test Engineer Agent** | Test-Suite, AC-Abdeckung, bösartige Edge Cases | Schreibt keinen Produktivcode; testet unabhängig gegen die Spec. |
-| **QA Gatekeeper** | Testausführung, Anti-Duplication Guard, Secret-Scan | **Prüft Diff auf Code-Duplikate;** lehnt PR ab, wenn Rad neu erfunden wurde. |
+| **Interview Agent** | Product Owner, Epic Decomposer, Spec Generation | Detect epics, slice to max. 1–3 REQs per story; secure Definition of Ready (DoR). |
+| **Scrum Master Agent** | Context Optimizer & Task Packager | Keep context windows small (<3k tokens); generate minimal interface kick-off prompts. |
+| **LLM Proxy & Router** | Cost & Quality Optimization | Start at cheapest tier (Workhorse/Local); dynamically escalate to Tier 1 on failures. |
+| **Coding Agent** | Application code implementation | **Reuse First:** Search workspace before creating files; never write own tests. |
+| **Test Engineer Agent** | Test suite, AC coverage, edge cases | Never write app code; test objectively against the spec. |
+| **QA Gatekeeper** | Test runner, Anti-Duplication, Secret scan | **Inspect diff for code duplicates;** unbribable Exit Code 0 verifier. |
 
 ---
 
 ## 🗺️ Roadmap
 
 - [x] **Core & Governance (MVP0)**
-  - [x] Agile Story-Slicing (Scrum-Style, max. 1–3 REQs pro Story).
-  - [x] "Code Reuse First"-Mechanismus (im Coder UND als QA-Prüfschranke).
-  - [x] Vier-Augen-Trennung: Coding Agent vs. Test Engineer Agent.
-  - [x] QA Gatekeeper Agent (Shell-Runner & Compliance).
-  - [x] Git-Governance, Branch Protection & PR-Template (NovaSmart Standard).
+  - [x] Agile story-slicing (Scrum-style, max. 1–3 REQs per story).
+  - [x] Scrum Master Agent for context optimization & kick-off prompts.
+  - [x] LLM-Model Proxy & Cost-Quality Router (3-Tier model & dynamic escalation).
+  - [x] "Code Reuse First" mechanism (in Coder AND as QA gate).
+  - [x] Four-Eyes Principle: Coding Agent vs. Test Engineer Agent.
+  - [x] QA Gatekeeper Agent (Shell runner & compliance).
+  - [x] Git governance, branch protection & PR template (NovaSmart standard).
 - [x] **Domain Overlay: Web App (MVP1)**
-  - [x] Overlay-Konzept ohne Copy-Paste Redundanz (Vererbung der Base-Regeln).
-  - [x] Spezialisierte Rollen: Frontend Engineer & Backend Engineer.
-  - [x] Contract-First Handshake-Muster (`api-contract.yaml`).
-- [ ] **Tech-Stack Profile (MVP2)**
-  - [ ] Konkrete Profile (z. B. Angular Frontend + NestJS/Go Backend).
-  - [ ] Integrierte Linter-/Test-Runner-Templates.
+  - [x] Overlay pattern without copy-paste redundancy (inherits base rules).
+  - [x] Specialized roles: Frontend Engineer & Backend Engineer.
+  - [x] Contract-First handshake pattern (`api-contract.yaml`).
+- [ ] **Tech-Stack Profiles (MVP2)**
+  - [ ] Concrete stack profiles (e.g., Angular Frontend + NestJS/Go Backend).
+  - [ ] Integrated headless linter and test runner templates.

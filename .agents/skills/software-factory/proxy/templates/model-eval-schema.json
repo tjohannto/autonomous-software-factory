@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ModelEvaluationLogEntry",
+  "type": "object",
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "task_id": { "type": "string" },
+    "task_type": { 
+      "type": "string", 
+      "enum": ["INTERVIEW_PO", "KICKOFF_SPLIT", "CODE_GEN", "TEST_SDET", "BUGFIX", "PR_FORMAT"] 
+    },
+    "model_used": { "type": "string" },
+    "tier": { "type": "integer", "enum": [1, 2, 3] },
+    "tokens": {
+      "type": "object",
+      "properties": {
+        "prompt_tokens": { "type": "integer" },
+        "completion_tokens": { "type": "integer" },
+        "total_cost_usd": { "type": "number" }
+      },
+      "required": ["prompt_tokens", "completion_tokens", "total_cost_usd"]
+    },
+    "qa_result": {
+      "type": "object",
+      "properties": {
+        "first_time_pass": { "type": "boolean" },
+        "attempts_needed": { "type": "integer" },
+        "final_status": { "type": "string", "enum": ["VERIFIED", "QA_FAILED", "ESCALATED"] }
+      },
+      "required": ["first_time_pass", "attempts_needed", "final_status"]
+    }
+  },
+  "required": ["timestamp", "task_id", "task_type", "model_used", "tier", "tokens", "qa_result"]
+}

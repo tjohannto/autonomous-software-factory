@@ -1,25 +1,25 @@
 ## 📝 Summary
-Kurze Zusammenfassung der Änderungen (2–3 prägnante Sätze).
+Concise summary of changes (2–3 clear sentences).
 
 ## 🎯 Spec Reference
-* **Spec File:** `specs/[feature-name].md`
-* **Status:** Freigegeben durch Interview Agent (DoR erfüllt)
+* **Spec File:** `specs/[story-name].md`
+* **Status:** Approved by Interview Agent (DoR fulfilled)
 
-## ♻️ Code Reuse & Wartbarkeit
-- [x] **Reuse First beachtet:** Bestehende Module, Utils und Komponenten wurden wiederverwendet.
-- [x] **Kein Greenfield-Spam / Anti-Duplication:** Keine redundanten Hilfsfunktionen angelegt.
+## ♻️ Code Reuse & Maintainability
+- [x] **Reuse-First Verified:** Existing modules, utilities, and components reused.
+- [x] **Anti-Greenfield Guard:** No redundant helper functions created.
 
-## ✅ Erfüllte Anforderungen (Traceability)
-Verknüpfung der fachlichen Requirements mit den jeweiligen Commits:
-- [x] **REQ-1:** [Kurzbeschreibung Requirement 1] (Commit: `[short-hash]`)
-- [x] **REQ-2:** [Kurzbeschreibung Requirement 2] (Commit: `[short-hash]`)
+## ✅ Fulfilled Requirements (Traceability)
+Mapping functional requirements to commit hashes:
+- [x] **REQ-1:** [Requirement description] (Commit: `[short-hash]`)
+- [x] **REQ-2:** [Requirement description] (Commit: `[short-hash]`)
 
 ## 🛡️ QA & Governance Audit (NovaSmart Standard)
-- [x] **Deterministischer Testlauf:** Alle Tests bestanden (Exit Code 0).
-- [x] **Test-Report:** `[X]` Tests ausgeführt, `0` Fehler.
-- [x] **Regression Guard:** Alle bestehenden Tests laufen weiterhin fehlerfrei durch.
-- [x] **Security & Secret Screening:** Keine API-Keys, Credentials oder unsichere Patterns im Diff.
-- [x] **Scope Guard:** Alle "Out of Scope"-Punkte aus der Spec wurden respektiert.
+- [x] **Deterministic Test Run:** All tests passed (Exit Code 0).
+- [x] **Test Report:** `[X]` tests executed, `0` failures.
+- [x] **Regression Guard:** All existing regression test suites continue to pass.
+- [x] **Security & Secret Screening:** No API keys, credentials, or insecure patterns in diff.
+- [x] **Scope Guard:** All "Out of Scope" items strictly respected.
 
-## ⚠️ Breaking Changes / Hinweise für Deployment
-* [Keine / Beschreibung von Schema- oder API-Änderungen]
+## ⚠️ Breaking Changes / Deployment Notes
+* [None / Description of database migration or API schema changes]

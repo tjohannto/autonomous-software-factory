@@ -1,28 +1,28 @@
-# Leitfaden: Git-Workflow, Branching & Governance (NovaSmart-Style)
+# Guide: Git Workflow, Branching & Governance (NovaSmart Standard)
 
-Dieser Standard regelt, wie Agenten Änderungen am Codebase durchführen. Niemand committet unkontrolliert.
+This standard governs how agents execute changes on the codebase. No direct pushes allowed.
 
 ---
 
-### 1. BRANCHING-STRATEGIE (Least Privilege Isolation)
+### 1. BRANCHING STRATEGY (Least Privilege Isolation)
 
 * **`main` (Production):**
-  * Spiegelt den aktuellen Stand auf Live/Prod wider.
-  * **Strikter Schutz:** Direct Push verboten. Merges nur via Release-PR aus `dev`.
+  * Mirrors the current live production state.
+  * **Strict Protection:** Direct push forbidden. Merges only via release PR from `dev`.
 * **`dev` (Integration / Staging):**
-  * Zentraler Entwicklungszweig.
-  * **Strikter Schutz:** Direct Push verboten. Änderungen gelangen **nur via Pull Request** hierher.
-* **`feat/<feature-name>` oder `fix/<issue-name>` (Agent Workspaces):**
-  * Jeder Feature-Auftrag erhält einen dedizierten, isolierten Branch.
-  * Wird automatisch vom Coding Agent erzeugt, sobald die `spec.md` approved ist.
+  * Central integration branch.
+  * **Strict Protection:** Direct push forbidden. Changes enter **only via Pull Request**.
+* **`feat/<story-name>` or `fix/<issue-name>` (Agent Workspaces):**
+  * Each user story runs on a dedicated, isolated branch.
+  * Created automatically once `spec.md` is approved.
 
 ---
 
-### 2. CONVENTIONAL COMMITS (Pflicht für alle Agenten)
+### 2. CONVENTIONAL COMMITS (Mandatory for All Agents)
 
-Jeder Commit muss maschinenlesbar, präzise und rückverfolgbar sein:
+Every commit must be machine-readable, precise, and traceable:
 
-Format: `<type>(<scope>): <kurze beschreibung im präsens>`
+Format: `<type>(<scope>): <concise present-tense description>`
 
 * `feat(auth): implement login form validation for REQ-1`
 * `test(auth): add unit test for invalid password handling`
@@ -32,9 +32,9 @@ Format: `<type>(<scope>): <kurze beschreibung im präsens>`
 
 ---
 
-### 3. PULL REQUESTS & AUDIT LOGGING (NovaSmart Learnings)
+### 3. PULL REQUESTS & AUDIT LOGS (NovaSmart Learnings)
 
-1. **Kein PR ohne Spec-Referenz:** Jeder PR muss auf eine existierende `specs/<feature-name>.md` verweisen.
-2. **Kein Merge ohne QA-Sign-off:** Ein PR darf erst gemergt werden, wenn der QA Agent das Siegel `[STATUS: VERIFIED]` vergeben hat.
-3. **Squash & Merge:** Feature-Branches werden beim Merge in `dev` "gesquasht". Das garantiert eine saubere Historie: 1 Commit = 1 vollständiges, verifiziertes Feature.
-4. **Secret & Safety Screening:** Vor dem Commit prüft der Agent (oder die Pre-Commit-Hook), dass keine Tokens, privaten Keys oder Debug-Backdoors im Diff enthalten sind.
+1. **No PR Without Spec Reference:** Every PR must link to an existing `specs/<story-name>.md`.
+2. **No Merge Without QA Sign-off:** A PR may only merge when QA Gatekeeper outputs `[STATUS: VERIFIED]`.
+3. **Squash & Merge:** Feature branches are squash-merged into `dev`. This maintains a clean history: 1 commit = 1 verified story.
+4. **Secret & Safety Screening:** Pre-commit checks ensure no tokens, keys, or debug backdoors are included in diffs.

@@ -1,40 +1,57 @@
 ---
 name: software-factory
-description: Domain-agnostic Software Factory based on Spec-Driven Development (SDD) & NovaSmart AI Governance.
+description: Domain-agnostic Software Factory based on Spec-Driven Development (SDD), Scrum Task Packaging, LLM Cost Proxy & NovaSmart AI Governance.
 ---
 
 # Software Factory (Core)
 
-Dieses Skill definiert das wiederverwendbare Fundament für eine autonome Software-Entwicklungsfabrik nach dem **Spec-Driven Development (SDD)**-Prinzip und **Vier-Augen-Qualitätssicherung**.
+This skill provides the reusable foundation for an autonomous, cost-optimized Software Factory following **Spec-Driven Development (SDD)**, **agile Scrum packaging**, and **four-eyes quality governance**.
 
-## Rollen & Prompts
+## Roles & Agent Prompts
 
-1. **[Interview Agent (Spec Lead)](prompts/interview-agent.md):** Führt das Gespräch mit dem Vibecoder (auch Voice-to-Text), stellt max. 1-2 Fragen pro Interaktion und erstellt die Spezifikation basierend auf [spec-template.md](templates/spec-template.md).
-2. **[Coding Agent (Implementer)](prompts/coding-agent.md):** Schreibt den Produktivcode exakt nach `spec.md`. Schreibt selbst keine Tests, um Confirmation Bias zu vermeiden.
-3. **[Test Engineer Agent (SDET)](prompts/test-engineer-agent.md):** Schreibt unabhängig die automatisierte Test-Suite (Happy Paths + Edge Cases) streng nach den Akzeptanzkriterien.
-4. **[QA Gatekeeper Agent (Runner)](prompts/qa-agent.md):** Führt die Test-Suite deterministisch in der Shell aus, scannt nach Secrets/Lints und gibt den PR frei (oder liefert `review_feedback.md`).
-5. **[Git Governance & Standards](prompts/git-governance.md):** Regeln für Branching (`main` <- `dev` <- `feat/*`), Conventional Commits und PR-Templates.
+1. **[Interview Agent (Spec Lead)](prompts/interview-agent.md):** Engages with the Vibe Coder (voice/text-ready) and slices epics into actionable user stories (`specs/01-xyz.md`).
+2. **[Scrum Master Agent (Task Packager)](prompts/scrum-master-agent.md):** Extracts minimal interface skeletons from existing code, protects context windows (<3,000 tokens), and builds concise **kick-off prompts**.
+3. **[Coding Agent (Implementer)](prompts/coding-agent.md):** Implements application code under strict **Reuse-First** rules. Does not write own tests.
+4. **[Test Engineer Agent (SDET)](prompts/test-engineer-agent.md):** Independently writes comprehensive automated test suites (including malicious edge cases) derived from acceptance criteria.
+5. **[QA Gatekeeper Agent (Runner & Compliance)](prompts/qa-agent.md):** Executes test suites deterministically in a shell sandbox, checks diffs for code duplication (anti-greenfield guard), screens secrets, and approves PRs.
+6. **[Git Governance & Standards](prompts/git-governance.md):** Branching rules (`main` <- `dev` <- `feat/*`), Conventional Commits, and PR templates.
 
-## Daten- & Arbeitsfluss (Vier-Augen-Prinzip)
+## Cost & Model Optimization
+
+* **[LLM-Model Proxy & Cost Router](proxy/PROXY_ARCHITECTURE.md):** Distributes tasks across 3 model tiers (Tier 1: Heavyweight, Tier 2: Workhorse, Tier 3: Utility) with dynamic escalation and cost/quality logging (`proxy/templates/model-eval-schema.json`).
+
+## Autonomous Workflow
 
 ```text
-               [ Vibecoder (Voice/Text) ]
+               [ Vibe Coder (Voice / Text) ]
                             │
                             ▼
-                    [ Interview Agent ]
+                    [ Interview Agent ]  ◄── (Epic Decomposer: Slices Stories)
                             │
-                            ▼ erzeugt
-                       [ spec.md ]
+                            ▼ generates
+                    [ specs/01-story.md ]
+                            │
+                            ▼
+                  [ Scrum Master Agent ] ◄── (Builds Kick-off Prompt, Protects Context Window)
+                            │
+                            ▼
+                [ LLM Proxy / Cost Router ] (Selects Tier 1 / 2 / 3 per Task)
                             │
             ┌───────────────┴───────────────┐
-            ▼ (Parallel)                    ▼ (Parallel)
+            ▼                               ▼
     [ Coding Agent ]             [ Test Engineer Agent ]
-    (Produktivcode)              (Test-Suite & Edge Cases)
+    (Reuse First,                (Writes Test Suite & Edge Cases
+     Application Code)            independently from Coder)
             │                               │
             └───────────────┬───────────────┘
-                            ▼
-                 [ QA Gatekeeper Agent ]
-                   (Führt Tests in Shell aus)
-                   ├── [PASS] ──▶ Auditierter PR (dev Branch)
-                   └── [FAIL] ──▶ review_feedback.md ──▶ [Coding Agent]
+                            ▼ Handoff to Sandbox
+                 [ QA Gatekeeper Agent ] ◄── (1. Run Tests, 2. Anti-Duplication Check)
+                            │
+       ┌────────────────────┴────────────────────────┐
+       ▼ [FAIL: Tests Red OR Duplicates Found]       ▼ [PASS: Tests Green & Reuse OK]
+  [ review_feedback.md ]                     [ Audited Pull Request ]
+  (Retry with Scrum Master hint,             (PR Template targeting dev branch)
+   optional Proxy escalation to Tier 1)              │
+                                                     ▼ Squash & Merge
+                                              [ dev / Staging ]
 ```
