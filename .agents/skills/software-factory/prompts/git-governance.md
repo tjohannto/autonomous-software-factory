@@ -4,23 +4,41 @@ This standard governs how agents execute changes on the codebase. No direct push
 
 ---
 
-### 1. BRANCHING STRATEGY (Least Privilege Isolation)
+### 1. BRANCHING STRATEGY & LIFECYCLE (Least Privilege Isolation)
+
+```text
+[ main ] (Production)
+   ▲
+   │ (Release PR: Requires Human Vibe Coder Preview Sign-off!)
+[ dev ]  (Staging / Integration)
+   ▲
+   │ (Feature PR: Requires Red-Green TDD & QA Gatekeeper Sign-off)
+[ feat/<story-name> ] (Isolated Agent Workspace)
+```
 
 * **`main` (Production):**
-  * Mirrors the current live production state.
-  * **Strict Protection:** Direct push forbidden. Merges only via release PR from `dev`.
+  * Mirrors the live production state.
+  * **Strict Protection:** Direct push forbidden. Merges only via release PR from `dev` **after explicit human preview sign-off**.
 * **`dev` (Integration / Staging):**
   * Central integration branch.
-  * **Strict Protection:** Direct push forbidden. Changes enter **only via Pull Request**.
+  * **Strict Protection:** Direct push forbidden. Changes enter **only via Pull Request** after QA Gatekeeper certification.
 * **`feat/<story-name>` or `fix/<issue-name>` (Agent Workspaces):**
   * Each user story runs on a dedicated, isolated branch.
   * Created automatically once `spec.md` is approved.
 
 ---
 
-### 2. CONVENTIONAL COMMITS (Mandatory for All Agents)
+### 2. QUALITY & AUDIT GATES
 
-Every commit must be machine-readable, precise, and traceable:
+1. **Pre-Coding Handshake:** Scrum Master publishes Interface Skeleton to eliminate naming/import mismatches.
+2. **Red-Green TDD Audit:** QA Gatekeeper runs tests against stubbed skeleton first. Tests **must fail (RED)** to prove they are not tautological, then pass **(GREEN)** against implementation.
+3. **Hermetic Runtime:** No undeclared packages. Dependencies must be locked.
+4. **Squash & Merge:** Feature branches are squash-merged into `dev`. This maintains a clean history: 1 commit = 1 verified story.
+5. **Vibe Coder Preview Gate:** Interview Agent presents interactive staging preview to human before promoting `dev` to `main`.
+
+---
+
+### 3. CONVENTIONAL COMMITS (Mandatory for All Agents)
 
 Format: `<type>(<scope>): <concise present-tense description>`
 
@@ -29,12 +47,3 @@ Format: `<type>(<scope>): <concise present-tense description>`
 * `fix(cart): resolve race condition during stock decrement`
 * `docs(spec): add approved specification for password reset`
 * `refactor(db): optimize query performance without schema changes`
-
----
-
-### 3. PULL REQUESTS & AUDIT LOGS (NovaSmart Learnings)
-
-1. **No PR Without Spec Reference:** Every PR must link to an existing `specs/<story-name>.md`.
-2. **No Merge Without QA Sign-off:** A PR may only merge when QA Gatekeeper outputs `[STATUS: VERIFIED]`.
-3. **Squash & Merge:** Feature branches are squash-merged into `dev`. This maintains a clean history: 1 commit = 1 verified story.
-4. **Secret & Safety Screening:** Pre-commit checks ensure no tokens, keys, or debug backdoors are included in diffs.

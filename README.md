@@ -1,6 +1,6 @@
-# Autonomous Software Factory (Core, WebApp Overlay & Cost-Engine)
+# Autonomous Software Factory (Enterprise Edition)
 
-A modular, evolvable Software Factory enabling software engineers to build and operate standardized multi-agent teams. Domain experts and product owners ("Vibe Coders") drive software development via **Spec-Driven Development (SDD)**, voice/text memos, and deterministic quality gates — hardened by **agile Scrum story-slicing**, **context optimization**, **cost-efficient LLM routing**, and **enterprise multi-agent governance** (inspired by **NovaSmart Enterprise AI Governance**).
+A modular, evolvable Software Factory enabling software engineers to build and operate standardized multi-agent teams. Domain experts and product owners ("Vibe Coders") drive software development via **Spec-Driven Development (SDD)**, voice/text memos, and deterministic quality gates — hardened by **agile Scrum story-slicing**, **Interface Skeletons**, **Red-Green TDD validation**, **cost-efficient LLM routing**, and **enterprise multi-agent governance** (inspired by **NovaSmart Enterprise AI Governance**).
 
 ---
 
@@ -8,17 +8,16 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 
 1. **Scrum Slicing Instead of Giant Specs:**
    * Never implement epics in a single prompt. The **Interview Agent** automatically breaks down large ideas into bite-sized user stories (max. 1–3 REQs per story).
-2. **Scrum Master as Context Optimizer:**
-   * Crafts tailored **kick-off prompts**, extracts minimal interface skeletons from existing code, and prevents context bloat (<3,000 tokens) and attention degradation.
-3. **Economic Efficiency via LLM-Model Proxy:**
+2. **Interface Skeletons & Contract Handshake:**
+   * Before parallel execution begins, the **Scrum Master Agent** establishes empty function/class signatures and types. This prevents naming and import mismatches between Coder and SDET.
+3. **Red-Green TDD Certification (Anti-Fake Test Guard):**
+   * The **QA Gatekeeper** tests the SDET's test suite against the empty skeleton *first*. Tests **must fail (RED)** to prove they are not tautologies (`assert True == True`). Only then are they run against the Coder's implementation to turn **pass (GREEN)**.
+4. **Hermetic Dependencies & Anti-Greenfield Guard:**
+   * No arbitrary runtime package installations. Strict diff inspection rejects PRs if existing functions are duplicated or undeclared dependencies are introduced.
+5. **Economic Efficiency via LLM-Model Proxy:**
    * Three-tier routing (Tier 1: Heavyweight, Tier 2: Workhorse, Tier 3: Fast/Utility). Always starts with the most economical model and escalates only when edge cases fail.
-   * Full observability logging token costs, latency, and success rates (`Efficiency Score`).
-4. **Reuse-First (Double-Checked Against Greenfield Spam):**
-   * **In Coder:** Mandatory workspace research before creating new utility functions or components.
-   * **In QA Gatekeeper:** Git diff inspection against code duplication. Reinventing the wheel triggers an automatic rejection!
-5. **Four-Eyes Principle & Deterministic QA:**
-   * Role separation: The **Coding Agent** writes application code only. An independent **Test Engineer Agent (SDET)** writes test suites against acceptance criteria and edge cases.
-   * The **QA Gatekeeper** executes tests deterministically in a shell sandbox (only Exit Code 0 counts), screens for secret leaks, and prepares audited pull requests.
+6. **Vibe Coder Preview Gate (Human-in-the-Loop Release):**
+   * Staging changes (`dev`) are presented as an interactive preview or CLI demo to the human Vibe Coder before any promotion to Production (`main`).
 
 ---
 
@@ -34,31 +33,31 @@ A modular, evolvable Software Factory enabling software engineers to build and o
                     [ specs/01-story.md ]
                             │
                             ▼
-                  [ Scrum Master Agent ] ◄── (Builds Kick-off Prompt, Protects Context Window)
+                  [ Scrum Master Agent ] ◄── (1. Defines Interface Skeleton, 2. Locks Dependencies)
                             │
+                ┌───────────┴───────────┐
+                ▼ (Reads Skeleton)      ▼ (Reads Skeleton)
+        [ Coding Agent ]        [ Test Engineer Agent ]
+        (Implements Code)       (Writes Test Suite against Skeleton)
+                │                       │
+                │                       ▼ Stage 1: RED Verification
+                │              [ QA Gatekeeper Agent ]
+                │              (Proves tests FAIL on empty skeleton!)
+                │                       │
+                └───────────┬───────────┘ Stage 2: GREEN Verification
                             ▼
-                [ LLM Proxy / Cost Router ] (Routes Tier 1 / 2 / 3 by Task Type)
+                 [ QA Gatekeeper Agent ] ◄── (All tests turn green; Anti-Duplication & Secret check)
                             │
-            ┌───────────────┴───────────────┐ (Parallel Execution on feat/01-story)
-            ▼                               ▼
-    [ Coding Agent ]             [ Test Engineer Agent ]
-    (Inspects existing code,     (Writes Test Suite & Edge Cases
-     implements app code)         independently from coder)
-            │                               │
-            └───────────────┬───────────────┘
-                            ▼ Handoff to Sandbox
-                 [ QA Gatekeeper Agent ] ◄── (1. Runs Tests, 2. Anti-Duplication Check)
+                            ▼ [PASS]
+                 [ Pull Request to dev ]
+                            │ Squash & Merge
+                     [ dev / Staging ]
                             │
-       ┌────────────────────┴────────────────────────┐
-       ▼ [FAIL: Tests Red OR Duplicates Found]       ▼ [PASS: Tests Green & Reuse OK]
-  [ review_feedback.md ]                     [ Audited Pull Request ]
-  (Retry loop with Scrum Master hint,        (PR Template targeting dev branch)
-   optional Proxy escalation to Tier 1)              │
-                                                     ▼ Squash & Merge
-                                              [ dev / Staging ]
-                                                     │
-                                                     ▼ Release PR
-                                             [ main / Production ]
+                            ▼ Vibe Preview Gate (Interactive Demo / URL)
+                    [ Interview Agent ]  ◄── (Asks Human: "Does UX feel right?")
+                            │
+                            ▼ [HUMAN APPROVAL: "Ship it!"]
+                  [ Release to main ]
 ```
 
 ---
@@ -78,14 +77,14 @@ A modular, evolvable Software Factory enabling software engineers to build and o
             ├── SKILL.md                               # Base skill definition
             ├── templates/
             │   ├── spec-template.md                   # Lean spec template with "Code Reuse First"
-            │   └── pr-template.md                     # Audited PR template with reuse verification
+            │   └── pr-template.md                     # Audited PR template (TDD, Skeletons, Previews)
             ├── prompts/
-            │   ├── interview-agent.md                 # PO, Scrum Master & Epic Decomposer
-            │   ├── scrum-master-agent.md              # Context Window Protection & Kick-off Prompts
+            │   ├── interview-agent.md                 # PO, Epic Decomposer & Vibe Preview Gatekeeper
+            │   ├── scrum-master-agent.md              # Interface Architect & Context Optimizer
             │   ├── coding-agent.md                    # Implementer (App code with mandatory reuse)
             │   ├── test-engineer-agent.md             # Independent SDET (Test suites & edge cases)
-            │   ├── qa-agent.md                        # QA Gatekeeper (Runner & Anti-Duplication Guard)
-            │   └── git-governance.md                  # Branching, Conventional Commits & Release Rules
+            │   ├── qa-agent.md                        # QA Gatekeeper (Runner, TDD Certifier, Reuse Guard)
+            │   └── git-governance.md                  # Lifecycle, Conventional Commits & Release Rules
             ├── proxy/                                 # 💰 LLM PROXY & COST CONTROLLING
             │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing & escalation concept
             │   └── templates/
@@ -106,24 +105,26 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 
 | Role | Primary Responsibility | Cardinal Rule |
 | :--- | :--- | :--- |
-| **Interview Agent** | Product Owner, Epic Decomposer, Spec Generation | Detect epics, slice to max. 1–3 REQs per story; secure Definition of Ready (DoR). |
-| **Scrum Master Agent** | Context Optimizer & Task Packager | Keep context windows small (<3k tokens); generate minimal interface kick-off prompts. |
+| **Interview Agent** | Product Owner, Epic Decomposer, Preview Gatekeeper | Slices stories to max. 1–3 REQs; obtains human sign-off on staging preview before `main` release. |
+| **Scrum Master Agent** | Interface Architect & Context Optimizer | **Publishes Interface Skeletons** before parallel execution; locks dependencies; keeps context <3k tokens. |
 | **LLM Proxy & Router** | Cost & Quality Optimization | Start at cheapest tier (Workhorse/Local); dynamically escalate to Tier 1 on failures. |
-| **Coding Agent** | Application code implementation | **Reuse First:** Search workspace before creating files; never write own tests. |
-| **Test Engineer Agent** | Test suite, AC coverage, edge cases | Never write app code; test objectively against the spec. |
-| **QA Gatekeeper** | Test runner, Anti-Duplication, Secret scan | **Inspect diff for code duplicates;** unbribable Exit Code 0 verifier. |
+| **Coding Agent** | Application code implementation | **Follow Skeleton & Reuse First:** Search workspace before creating files; never write own tests. |
+| **Test Engineer Agent** | Test suite, AC coverage, edge cases | **Target Skeleton Signatures:** Never write app code; test objectively against the spec. |
+| **QA Gatekeeper** | TDD Certifier, Test Runner, Anti-Duplication Guard | **Red-Green TDD:** Confirm tests fail on stubs first, then pass on implementation; verify zero duplicates. |
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] **Core & Governance (MVP0)**
+- [x] **Core & Governance (MVP0 - Hardened)**
   - [x] Agile story-slicing (Scrum-style, max. 1–3 REQs per story).
-  - [x] Scrum Master Agent for context optimization & kick-off prompts.
+  - [x] Scrum Master Agent generating **Interface Skeletons** to prevent naming mismatches.
+  - [x] **Red-Green TDD Verification** in QA Gatekeeper (proof against tautological tests).
+  - [x] Hermetic dependency locking and pre-flight sandbox validation.
+  - [x] **Vibe Coder Preview Gate** for human visual/UX approval before prod.
   - [x] LLM-Model Proxy & Cost-Quality Router (3-Tier model & dynamic escalation).
   - [x] "Code Reuse First" mechanism (in Coder AND as QA gate).
   - [x] Four-Eyes Principle: Coding Agent vs. Test Engineer Agent.
-  - [x] QA Gatekeeper Agent (Shell runner & compliance).
   - [x] Git governance, branch protection & PR template (NovaSmart standard).
 - [x] **Domain Overlay: Web App (MVP1)**
   - [x] Overlay pattern without copy-paste redundancy (inherits base rules).
