@@ -98,14 +98,21 @@ A modular, evolvable Software Factory enabling software engineers to build and o
                     │   ├── frontend-agent.md          # UI, a11y, State, Mock APIs
                     │   └── backend-agent.md           # API Compliance, Security, DB Migrations
                     └── stacks/                        # ⚡ CONCRETE TECH-STACK PROFILES (Layer 2)
-                        └── mbargo-reporting/          # Angular 21 + Play Framework 3 BI Stack
-                            ├── STACK.md               # Tooling, paths, commands & reuse rules
+                        ├── mbargo-reporting/          # Angular 21 + Play Framework 3 BI Stack
+                        │   ├── STACK.md               # Tooling, paths, commands & reuse rules
+                        │   ├── templates/
+                        │   │   └── kickoff-mbargo-template.md
+                        │   └── prompts/
+                        │       ├── frontend-agent-mbargo.md
+                        │       ├── test-engineer-mbargo.md
+                        │       └── backend-agent-play.md
+                        └── mbargo-admin-webtop/       # Apache Wicket 9.x + Java 17 + Tomcat Stack
+                            ├── STACK.md               # Wicket patterns, Maven profiles & SQL Server
                             ├── templates/
-                            │   └── kickoff-mbargo-template.md
+                            │   └── kickoff-webtop-template.md
                             └── prompts/
-                                ├── frontend-agent-mbargo.md  # Standalone, Signals, shared-export-utils
-                                ├── test-engineer-mbargo.md   # Jest, font-shrink edge cases, error tests
-                                └── backend-agent-play.md     # Play 3, Java 17 / Scala 3, sbt
+                                ├── wicket-engineer-agent.md  # HTML/Java pairs, IModel, POI exports
+                                └── test-engineer-webtop.md   # WicketTester, DAO & edge-case testing
 ```
 
 ---
@@ -123,22 +130,15 @@ A modular, evolvable Software Factory enabling software engineers to build and o
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Supported Tech-Stack Profiles
 
-- [x] **Core & Governance (MVP0 - Hardened)**
-  - [x] Agile story-slicing (Scrum-style, max. 1–3 REQs per story).
-  - [x] Scrum Master Agent generating **Interface Skeletons** to prevent naming mismatches.
-  - [x] **Red-Green TDD Verification** in QA Gatekeeper (proof against tautological tests).
-  - [x] Hermetic dependency locking and pre-flight sandbox validation.
-  - [x] **Vibe Coder Preview Gate** for human visual/UX approval before prod.
-  - [x] LLM-Model Proxy & Cost-Quality Router (3-Tier model & dynamic escalation).
-  - [x] "Code Reuse First" mechanism (in Coder AND as QA gate).
-  - [x] Four-Eyes Principle: Coding Agent vs. Test Engineer Agent.
-  - [x] Git governance, branch protection & PR template (NovaSmart standard).
-- [x] **Domain Overlay: Web App (MVP1)**
-  - [x] Overlay pattern without copy-paste redundancy (inherits base rules).
-  - [x] Specialized roles: Frontend Engineer & Backend Engineer.
-  - [x] Contract-First handshake pattern (`api-contract.yaml`).
-- [x] **Tech-Stack Profiles (MVP2)**
-  - [x] **mbargo-reporting Stack Profile:** Angular 21 (Standalone, Signals, Bootstrap 5, Jest in `/ui`) + Play Framework 3 (Java 17/Scala 3, sbt).
-  - [x] Deep domain memory & reuse enforcement for `shared-export-utils.ts` (adaptive font scaling, base64 stripping, error re-throwing).
+1. **`mbargo-reporting` (Modern SPA + Microservices):**
+   * Angular 21 (Standalone components, Signals, Bootstrap 5, Jest in `/ui`).
+   * Play Framework 3.0.x (Java 17 / Scala 3, sbt).
+   * Strict reuse of `shared-export-utils.ts` and billboard.js patch management.
+2. **`mbargo-admin-webtop` (Server-Rendered Java Enterprise):**
+   * Apache Wicket 9.22.0 + Java 17 LTS (WAR deployed to Tomcat).
+   * Component & Markup pairing (`*.java` + `*.html` with matching `wicket:id`).
+   * Memory & state isolation via `IModel<T>` (`LoadableDetachableModel`).
+   * Microsoft SQL Server persistence & Apache POI 5.5.1 Excel reporting.
+   * Maven build profile verification: `mvn clean install -P test`.
