@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: WebApp API Contract
+  description: Verbindlicher Vertrag zwischen Frontend- und Backend-Agent (Contract-First SDD)
+  version: 1.0.0
+paths:
+  # Beispiel-Pfad zur Orientierung
+  /api/v1/resource:
+    get:
+      summary: Ressourcen auflisten
+      responses:
+        '200':
+          description: Erfolgreiche Antwort
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
