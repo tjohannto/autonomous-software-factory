@@ -94,9 +94,18 @@ A modular, evolvable Software Factory enabling software engineers to build and o
                     ├── EXTENSION.md                   # WebApp architecture & Contract-First doc
                     ├── templates/
                     │   └── api-contract.yaml          # OpenAPI 3.0 Contract Standard
-                    └── prompts/
-                        ├── frontend-agent.md          # UI, a11y, State, Mock APIs
-                        └── backend-agent.md           # API Compliance, Security, DB Migrations
+                    ├── prompts/
+                    │   ├── frontend-agent.md          # UI, a11y, State, Mock APIs
+                    │   └── backend-agent.md           # API Compliance, Security, DB Migrations
+                    └── stacks/                        # ⚡ CONCRETE TECH-STACK PROFILES (Layer 2)
+                        └── mbargo-reporting/          # Angular 21 + Play Framework 3 BI Stack
+                            ├── STACK.md               # Tooling, paths, commands & reuse rules
+                            ├── templates/
+                            │   └── kickoff-mbargo-template.md
+                            └── prompts/
+                                ├── frontend-agent-mbargo.md  # Standalone, Signals, shared-export-utils
+                                ├── test-engineer-mbargo.md   # Jest, font-shrink edge cases, error tests
+                                └── backend-agent-play.md     # Play 3, Java 17 / Scala 3, sbt
 ```
 
 ---
@@ -130,6 +139,6 @@ A modular, evolvable Software Factory enabling software engineers to build and o
   - [x] Overlay pattern without copy-paste redundancy (inherits base rules).
   - [x] Specialized roles: Frontend Engineer & Backend Engineer.
   - [x] Contract-First handshake pattern (`api-contract.yaml`).
-- [ ] **Tech-Stack Profiles (MVP2)**
-  - [ ] Concrete stack profiles (e.g., Angular Frontend + NestJS/Go Backend).
-  - [ ] Integrated headless linter and test runner templates.
+- [x] **Tech-Stack Profiles (MVP2)**
+  - [x] **mbargo-reporting Stack Profile:** Angular 21 (Standalone, Signals, Bootstrap 5, Jest in `/ui`) + Play Framework 3 (Java 17/Scala 3, sbt).
+  - [x] Deep domain memory & reuse enforcement for `shared-export-utils.ts` (adaptive font scaling, base64 stripping, error re-throwing).
