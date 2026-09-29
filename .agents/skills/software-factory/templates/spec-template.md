@@ -1,30 +1,30 @@
-# Spec: [Feature/Story-Name]
+# Spec: [Feature / Story Name]
 
-## 1. Ziel (Goal)
-[1-2 Sätze: Welches konkrete Problem lösen wir in dieser Story und warum?]
+## 1. Goal
+[1-2 sentences: Which concrete problem are we solving in this story and why?]
 
-## 2. Scope & Story-Größe (User Story Level)
-* **In Scope:** [Max. 1-3 zusammenhängende Anforderungen]
-* **Out of Scope:** [Alles, was in Folge-Stories oder spätere Epics gehört]
+## 2. Scope & Story Slicing (User Story Level)
+* **In Scope:** [Max. 1-3 cohesive functional requirements]
+* **Out of Scope:** [Items deferred to follow-up stories or future epics]
 
-## 3. Bestehender Code & Wiederverwendung (Code Reuse First)
-* **Zu prüfende / wiederverwendbare Module:** 
-  * [z. B. src/utils/formatters.ts, src/components/Button, src/services/auth.service]
-* **Refactoring bestehender Komponenten:**
-  * [Ja / Nein - Was muss erweitert oder angepasst werden, ohne Bestandsfunktionen zu brechen?]
+## 3. Existing Code & Code Reuse (Reuse First)
+* **Modules to inspect / reuse:** 
+  * [e.g. src/utils/formatters.ts, src/components/Button, src/services/auth.service]
+* **Refactoring existing components:**
+  * [Yes / No - What needs backward-compatible adaptation without breaking existing features?]
 
-## 4. Anforderungen (Requirements)
-Die fachlichen Funktionen (max. 1–3 pro Story):
-* **REQ-1:** [Fachliche Anforderung]
-* **REQ-2:** [Fachliche Anforderung]
+## 4. Requirements
+Functional business requirements (max. 1–3 per story):
+* **REQ-1:** [Business requirement]
+* **REQ-2:** [Business requirement]
 
-## 5. Akzeptanzkriterien (Woran erkenne ich, dass es fertig ist?)
-Direkt an die Requirements gekoppelt – aus Nutzersicht prüfbar:
-* **Zu REQ-1:** 
-  - [ ] [Sichtbares / prüfbares Verhalten aus Nutzersicht]
-* **Zu REQ-2:** 
-  - [ ] [Sichtbares / prüfbares Verhalten aus Nutzersicht]
+## 5. Acceptance Criteria (How do we know it is done?)
+Directly mapped to requirements — verifiable from a user perspective:
+* **For REQ-1:** 
+  - [ ] [Visible / testable user behavior]
+* **For REQ-2:** 
+  - [ ] [Visible / testable user behavior]
 
-## 6. Verifikation (QA Check)
-* **Command:** [z. B. npm test / pytest]
-* **Erwartung:** [Alle bestehenden Regressionstests UND neuen Tests grün, 0 Linter-Warnungen]
+## 6. Verification (QA Check)
+* **Command:** [e.g., python3 -m unittest discover -s tests -v / npm test]
+* **Expected Result:** [All regression tests AND new tests pass, zero linter warnings]

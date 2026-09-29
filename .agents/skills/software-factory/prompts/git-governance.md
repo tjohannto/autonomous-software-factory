@@ -1,40 +1,49 @@
-# Leitfaden: Git-Workflow, Branching & Governance (NovaSmart-Style)
+# Guide: Git Workflow, Branching & Governance (NovaSmart Standard)
 
-Dieser Standard regelt, wie Agenten Änderungen am Codebase durchführen. Niemand committet unkontrolliert.
+This standard governs how agents execute changes on the codebase. No direct pushes allowed.
 
 ---
 
-### 1. BRANCHING-STRATEGIE (Least Privilege Isolation)
+### 1. BRANCHING STRATEGY & LIFECYCLE (Least Privilege Isolation)
+
+```text
+[ main ] (Production)
+   ▲
+   │ (Release PR: Requires Human Vibe Coder Preview Sign-off!)
+[ dev ]  (Staging / Integration)
+   ▲
+   │ (Feature PR: Requires Red-Green TDD & QA Gatekeeper Sign-off)
+[ feat/<story-name> ] (Isolated Agent Workspace)
+```
 
 * **`main` (Production):**
-  * Spiegelt den aktuellen Stand auf Live/Prod wider.
-  * **Strikter Schutz:** Direct Push verboten. Merges nur via Release-PR aus `dev`.
+  * Mirrors the live production state.
+  * **Strict Protection:** Direct push forbidden. Merges only via release PR from `dev` **after explicit human preview sign-off**.
 * **`dev` (Integration / Staging):**
-  * Zentraler Entwicklungszweig.
-  * **Strikter Schutz:** Direct Push verboten. Änderungen gelangen **nur via Pull Request** hierher.
-* **`feat/<feature-name>` oder `fix/<issue-name>` (Agent Workspaces):**
-  * Jeder Feature-Auftrag erhält einen dedizierten, isolierten Branch.
-  * Wird automatisch vom Coding Agent erzeugt, sobald die `spec.md` approved ist.
+  * Central integration branch.
+  * **Strict Protection:** Direct push forbidden. Changes enter **only via Pull Request** after QA Gatekeeper certification.
+* **`feat/<story-name>` or `fix/<issue-name>` (Agent Workspaces):**
+  * Each user story runs on a dedicated, isolated branch.
+  * Created automatically once `spec.md` is approved.
 
 ---
 
-### 2. CONVENTIONAL COMMITS (Pflicht für alle Agenten)
+### 2. QUALITY & AUDIT GATES
 
-Jeder Commit muss maschinenlesbar, präzise und rückverfolgbar sein:
+1. **Pre-Coding Handshake:** Scrum Master publishes Interface Skeleton to eliminate naming/import mismatches.
+2. **Red-Green TDD Audit:** QA Gatekeeper runs tests against stubbed skeleton first. Tests **must fail (RED)** to prove they are not tautological, then pass **(GREEN)** against implementation.
+3. **Hermetic Runtime:** No undeclared packages. Dependencies must be locked.
+4. **Squash & Merge:** Feature branches are squash-merged into `dev`. This maintains a clean history: 1 commit = 1 verified story.
+5. **Vibe Coder Preview Gate:** Interview Agent presents interactive staging preview to human before promoting `dev` to `main`.
 
-Format: `<type>(<scope>): <kurze beschreibung im präsens>`
+---
+
+### 3. CONVENTIONAL COMMITS (Mandatory for All Agents)
+
+Format: `<type>(<scope>): <concise present-tense description>`
 
 * `feat(auth): implement login form validation for REQ-1`
 * `test(auth): add unit test for invalid password handling`
 * `fix(cart): resolve race condition during stock decrement`
 * `docs(spec): add approved specification for password reset`
 * `refactor(db): optimize query performance without schema changes`
-
----
-
-### 3. PULL REQUESTS & AUDIT LOGGING (NovaSmart Learnings)
-
-1. **Kein PR ohne Spec-Referenz:** Jeder PR muss auf eine existierende `specs/<feature-name>.md` verweisen.
-2. **Kein Merge ohne QA-Sign-off:** Ein PR darf erst gemergt werden, wenn der QA Agent das Siegel `[STATUS: VERIFIED]` vergeben hat.
-3. **Squash & Merge:** Feature-Branches werden beim Merge in `dev` "gesquasht". Das garantiert eine saubere Historie: 1 Commit = 1 vollständiges, verifiziertes Feature.
-4. **Secret & Safety Screening:** Vor dem Commit prüft der Agent (oder die Pre-Commit-Hook), dass keine Tokens, privaten Keys oder Debug-Backdoors im Diff enthalten sind.

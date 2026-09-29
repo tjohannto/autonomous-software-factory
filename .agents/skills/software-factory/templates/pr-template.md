@@ -1,25 +1,29 @@
 ## 📝 Summary
-Kurze Zusammenfassung der Änderungen (2–3 prägnante Sätze).
+Concise summary of changes (2–3 clear sentences).
 
 ## 🎯 Spec Reference
-* **Spec File:** `specs/[feature-name].md`
-* **Status:** Freigegeben durch Interview Agent (DoR erfüllt)
+* **Spec File:** `specs/[story-name].md`
+* **Status:** Approved by Interview Agent (DoR fulfilled)
 
-## ♻️ Code Reuse & Wartbarkeit
-- [x] **Reuse First beachtet:** Bestehende Module, Utils und Komponenten wurden wiederverwendet.
-- [x] **Kein Greenfield-Spam / Anti-Duplication:** Keine redundanten Hilfsfunktionen angelegt.
+## 📐 Interface Skeleton & Contracts
+- [x] **Skeleton Followed:** Coding Agent and Test Engineer implemented strictly against the pre-agreed signatures.
+- [x] **No Naming Mismatches:** Function/method names and type definitions are 100% aligned.
 
-## ✅ Erfüllte Anforderungen (Traceability)
-Verknüpfung der fachlichen Requirements mit den jeweiligen Commits:
-- [x] **REQ-1:** [Kurzbeschreibung Requirement 1] (Commit: `[short-hash]`)
-- [x] **REQ-2:** [Kurzbeschreibung Requirement 2] (Commit: `[short-hash]`)
+## 🧪 Red-Green TDD & QA Certification
+- [x] **Stage 1 (RED Verified):** Test suite was proven valid by failing on empty/stubbed skeleton (no tautological tests).
+- [x] **Stage 2 (GREEN Verified):** All tests passed against implementation (Exit Code 0).
+- [x] **Test Report:** `[X]` tests executed, `0` failures.
+- [x] **Regression Guard:** All existing regression test suites continue to pass.
 
-## 🛡️ QA & Governance Audit (NovaSmart Standard)
-- [x] **Deterministischer Testlauf:** Alle Tests bestanden (Exit Code 0).
-- [x] **Test-Report:** `[X]` Tests ausgeführt, `0` Fehler.
-- [x] **Regression Guard:** Alle bestehenden Tests laufen weiterhin fehlerfrei durch.
-- [x] **Security & Secret Screening:** Keine API-Keys, Credentials oder unsichere Patterns im Diff.
-- [x] **Scope Guard:** Alle "Out of Scope"-Punkte aus der Spec wurden respektiert.
+## ♻️ Code Reuse & Maintainability
+- [x] **Reuse-First Verified:** Existing modules, utilities, and components reused.
+- [x] **Anti-Greenfield Guard:** No redundant helper functions created.
 
-## ⚠️ Breaking Changes / Hinweise für Deployment
-* [Keine / Beschreibung von Schema- oder API-Änderungen]
+## 🔒 Security & Hermetic Runtime
+- [x] **Hermetic Dependencies:** No undeclared or unpinned third-party packages introduced.
+- [x] **Secret Screening:** No API keys, credentials, or insecure patterns in diff.
+- [x] **Scope Guard:** All "Out of Scope" items strictly respected.
+
+## 🎨 Vibe Preview (Staging Verification)
+* **Preview Command / URL:** `[e.g., python3 -m src.task_extractor.cli sample.md --json]`
+* **Vibe Coder UX Sign-off:** [ ] Pending / [x] Approved for Production Release

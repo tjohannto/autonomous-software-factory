@@ -1,13 +1,13 @@
 # Domain Overlay: Web App (MVP1)
 
-Dieses Overlay erweitert die generische `software-factory` (MVP0) um WebApp-spezifische Rollen und das **Contract-First Handshake-Muster**.
+This overlay extends the core `software-factory` (MVP0) with web application roles and the **Contract-First Handshake Pattern**.
 
 ---
 
-## 🏗️ Das Contract-First Muster
+## 🏗️ The Contract-First Pattern
 
-Um Kollisionen und Missverständnisse zwischen Frontend und Backend zu vermeiden, coden die Agenten niemals blind los. 
-Stattdessen gilt:
+To prevent frontend and backend agents from drifting or hallucinating divergent interfaces, agents never code blindly.
+Instead:
 
 ```text
                [ spec.md ]
@@ -18,26 +18,26 @@ Stattdessen gilt:
        ┌────────────┴────────────┐
        ▼                         ▼
 [ Frontend Agent ]        [ Backend Agent ]
-(Baut UI mit Mocks)       (Baut Endpunkte & DB)
+(Builds UI with mocks)    (Builds endpoints & DB)
        │                         │
        └────────────┬────────────┘
                     ▼
           [ QA / Integration ]
-      (Prüft Contract-Compliance)
+      (Verifies contract compliance)
 ```
 
 ---
 
-## 👥 Spezialisierte Rollen (Overlays)
+## 👥 Specialized Roles (Overlays)
 
-* **[frontend-agent.md](prompts/frontend-agent.md):** Fokussiert auf User Experience, Komponentenarchitektur, Barrierefreiheit und Mock-APIs.
-* **[backend-agent.md](prompts/backend-agent.md):** Fokussiert auf Schnittstellenkonformität, Validierung, Business-Logik und Datenbank-Migrationen.
+* **[frontend-agent.md](prompts/frontend-agent.md):** Focuses on user experience, component architecture, accessibility (a11y), responsive design, and mock APIs.
+* **[backend-agent.md](prompts/backend-agent.md):** Focuses on schema compliance, validation, business logic, security, and database migrations.
 
 ---
 
-## 🔄 Vererbung von der Basis
+## 🔄 Inheritance from Core
 
-Beide Agenten erben automatisch alle Governance- und Qualitätsregeln aus dem übergeordneten Verzeichnis:
-* Git-Workflow & Branching: `../../prompts/git-governance.md`
-* Basis-Coding-Standards: `../../prompts/coding-agent.md`
-* PR-Template: `../../templates/pr-template.md`
+Both agents automatically inherit all governance and quality guidelines from the core directory:
+* Git Workflow & Branching: `../../prompts/git-governance.md`
+* Coding Standards: `../../prompts/coding-agent.md`
+* PR Template: `../../templates/pr-template.md`
