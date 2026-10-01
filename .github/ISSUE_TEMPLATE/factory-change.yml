@@ -1,0 +1,54 @@
+name: Factory repository change
+description: Request a change to this factory repository (prompts, templates, docs, reference code, tests). Suitable for assignment to the Copilot coding agent.
+title: "[factory]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe **what** should change and how we will know it is done. Leave **how** to implement it to the assignee (human or Copilot coding agent).
+        Work branches from `dev` and the pull request must target `dev`.
+  - type: textarea
+    id: goal
+    attributes:
+      label: Problem / goal
+      description: What problem are we solving, or what outcome do we want?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is in scope and what is explicitly out of scope?
+      placeholder: |
+        In scope:
+        -
+        Out of scope:
+        -
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Verifiable conditions that must be true when this is done.
+      placeholder: |
+        - [ ]
+        - [ ]
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Relevant context
+      description: Related files, specs, issues, links or constraints.
+    validations:
+      required: false
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification expectations
+      description: How should the result be verified (tests, commands, manual checks, docs review)?
+      value: |
+        - `python3 -m unittest discover -s tests -v` passes
+    validations:
+      required: true
