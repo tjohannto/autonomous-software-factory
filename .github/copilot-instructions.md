@@ -21,7 +21,7 @@ It does **not** contain an autonomous multi-agent runtime. The agent roles (Inte
 - `specs/` — approved user-story specs (e.g. `specs/01-task-extractor.md`).
 - `src/` — reference application code (Python standard library only).
 - `tests/` — `unittest` test suites.
-- `.github/` — Copilot instructions, issue/PR templates and CI workflow.
+- `.github/` — Copilot instructions and issue/PR templates. A CI workflow (`.github/workflows/tests.yml`, see README) is added by maintainers; do not create or modify workflow files unless an issue asks for it.
 
 ## Build & test
 

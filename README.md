@@ -202,7 +202,7 @@ These files do **not** by themselves make Copilot available, and nothing here me
 
 1. **Copilot plan with coding agent access** — a paid Copilot plan (Pro, Pro+, Business or Enterprise). For Business/Enterprise, an organization/enterprise admin must enable the Copilot coding agent policy; it is off by default there.
 2. **Repository not opted out** — the coding agent must be allowed for this repository (repository/organization Copilot settings).
-3. **`dev` branch protection (recommended)** — in repository settings, protect `dev` and `main` (require PRs, require the `Tests` check, require human review). These are GitHub settings, not files in this repo.
+3. **`dev` branch protection (recommended)** — in repository settings, protect `dev` and `main` (require PRs and human review); on `dev`, once the workflow below exists, also require the `unittest` status check. These are GitHub settings, not files in this repo.
 4. **CI workflow** — create `.github/workflows/tests.yml` on `dev` (via a PR) with the content below. Automated agents typically lack the `workflows` permission needed to add workflow files, so a maintainer adds it:
 
    ```yaml
@@ -252,7 +252,7 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 │   ├── copilot-instructions.md                        # Copilot coding-agent instructions for this repo
 │   ├── ISSUE_TEMPLATE/factory-change.yml              # Issue form for factory-repo changes
 │   ├── pull_request_template.md                       # PR template (summary, issue, evidence, docs)
-│   └── workflows/tests.yml                            # CI: unittest suite for PRs/pushes to dev (maintainer-added)
+│   └── workflows/tests.yml                            # CI: unittest suite for PRs/pushes to dev (not yet present; maintainer adds it)
 ├── specs/                                             # Historic user stories (specs/01-xyz.md)
 ├── logs/                                              # Evaluation & token cost logs (model-eval.jsonl)
 ├── src/                                               # Production application code
