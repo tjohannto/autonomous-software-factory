@@ -183,11 +183,76 @@ The Software Factory is organized in three distinct architectural layers to elim
 
 ---
 
+## 🤖 Using GitHub Copilot on this Factory Repo
+
+This section is about contributing to **this factory repository itself** with the GitHub Copilot coding agent. It is separate from using the factory in your *target* repositories (see "How to Use" above). The factory roles described in this README are prompts and templates — this repository does not ship an autonomous multi-agent runtime.
+
+### Repository files
+
+| File | Purpose |
+| :--- | :--- |
+| `.github/copilot-instructions.md` | Repository instructions for Copilot: purpose, doc locations, test command, `dev`-only PRs. |
+| `.github/ISSUE_TEMPLATE/factory-change.yml` | Issue form: problem/goal, scope, acceptance criteria, context, verification. |
+| `.github/pull_request_template.md` | PR checklist: summary, linked issue, verification evidence, doc updates. |
+| `.github/workflows/tests.yml` *(to be added by a maintainer, see below)* | Runs `python3 -m unittest discover -s tests -v` on PRs targeting `dev` and pushes to `dev` (read-only token). |
+
+### Prerequisites (maintainer / admin settings)
+
+These files do **not** by themselves make Copilot available, and nothing here merges pull requests automatically. A maintainer must ensure:
+
+1. **Copilot plan with coding agent access** — a paid Copilot plan (Pro, Pro+, Business or Enterprise). For Business/Enterprise, an organization/enterprise admin must enable the Copilot coding agent policy; it is off by default there.
+2. **Repository not opted out** — the coding agent must be allowed for this repository (repository/organization Copilot settings).
+3. **`dev` branch protection (recommended)** — in repository settings, protect `dev` and `main` (require PRs, require the `Tests` check, require human review). These are GitHub settings, not files in this repo.
+4. **CI workflow** — create `.github/workflows/tests.yml` on `dev` (via a PR) with the content below. Automated agents typically lack the `workflows` permission needed to add workflow files, so a maintainer adds it:
+
+   ```yaml
+   name: Tests
+
+   on:
+     pull_request:
+       branches: [dev]
+     push:
+       branches: [dev]
+
+   permissions:
+     contents: read
+
+   jobs:
+     unittest:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - uses: actions/setup-python@v5
+           with:
+             python-version: "3.12"
+         - name: Run unittest suite
+           run: python3 -m unittest discover -s tests -v
+   ```
+
+5. **Workflow approval** — by default GitHub requires a user with write access to approve before Actions workflows run on Copilot-authored PRs; use the "Approve and run workflows" button on the PR.
+
+Exact menu names and defaults may change; see the GitHub Docs for the Copilot coding agent for the current settings.
+
+### Issue → Agent → PR flow
+
+1. **Define the "what":** open an issue with the *Factory repository change* form (goal, scope, acceptance criteria, verification). Leave the "how" to the agent.
+2. **Assign Copilot:** assign the issue to Copilot (or start a task from the Agents panel) and select **`dev` as the base branch**. If `dev` is not the repository's default branch, Copilot otherwise starts from the default branch — check the base before starting.
+3. **Agent works:** Copilot creates its own branch from `dev`, follows `.github/copilot-instructions.md`, runs the test suite and opens a (draft) PR targeting `dev`.
+4. **Review:** approve the CI run if prompted, review the diff and the PR template evidence, and request changes via PR comments mentioning `@copilot`.
+5. **Merge (human):** a maintainer merges into `dev`. Promotion from `dev` to `main` remains a separate, human-approved release step. Never target `main` directly.
+
+---
+
 ## 📁 Repository Structure
 
 ```text
 .
 ├── README.md                                          # System documentation
+├── .github/
+│   ├── copilot-instructions.md                        # Copilot coding-agent instructions for this repo
+│   ├── ISSUE_TEMPLATE/factory-change.yml              # Issue form for factory-repo changes
+│   ├── pull_request_template.md                       # PR template (summary, issue, evidence, docs)
+│   └── workflows/tests.yml                            # CI: unittest suite for PRs/pushes to dev (maintainer-added)
 ├── specs/                                             # Historic user stories (specs/01-xyz.md)
 ├── logs/                                              # Evaluation & token cost logs (model-eval.jsonl)
 ├── src/                                               # Production application code
