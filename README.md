@@ -194,7 +194,7 @@ This section is about contributing to **this factory repository itself** with th
 | `.github/copilot-instructions.md` | Repository instructions for Copilot: purpose, doc locations, test command, `dev`-only PRs. |
 | `.github/ISSUE_TEMPLATE/factory-change.yml` | Issue form: problem/goal, scope, acceptance criteria, context, verification. |
 | `.github/pull_request_template.md` | PR checklist: summary, linked issue, verification evidence, doc updates. |
-| `.github/workflows/tests.yml` *(to be added by a maintainer, see below)* | Runs `python3 -m unittest discover -s tests -v` on PRs targeting `dev` and pushes to `dev` (read-only token). |
+| `.github/workflows/tests.yml` | Runs `python3 -m unittest discover -s tests -v` with Python 3.12 on PRs targeting `dev` and pushes to `dev` (read-only token). |
 
 ### Prerequisites (maintainer / admin settings)
 
@@ -202,34 +202,8 @@ These files do **not** by themselves make Copilot available, and nothing here me
 
 1. **Copilot plan with coding agent access** — a paid Copilot plan (Pro, Pro+, Business or Enterprise). For Business/Enterprise, an organization/enterprise admin must enable the Copilot coding agent policy; it is off by default there.
 2. **Repository not opted out** — the coding agent must be allowed for this repository (repository/organization Copilot settings).
-3. **`dev` branch protection (recommended)** — in repository settings, protect `dev` and `main` (require PRs and human review); on `dev`, once the workflow below exists, also require the `unittest` status check. These are GitHub settings, not files in this repo.
-4. **CI workflow** — create `.github/workflows/tests.yml` on `dev` (via a PR) with the content below. Automated agents typically lack the `workflows` permission needed to add workflow files, so a maintainer adds it:
-
-   ```yaml
-   name: Tests
-
-   on:
-     pull_request:
-       branches: [dev]
-     push:
-       branches: [dev]
-
-   permissions:
-     contents: read
-
-   jobs:
-     unittest:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-python@v5
-           with:
-             python-version: "3.12"
-         - name: Run unittest suite
-           run: python3 -m unittest discover -s tests -v
-   ```
-
-5. **Workflow approval** — by default GitHub requires a user with write access to approve before Actions workflows run on Copilot-authored PRs; use the "Approve and run workflows" button on the PR.
+3. **`dev` branch protection (recommended)** — in repository settings, protect `dev` and `main` (require PRs and human review); on `dev`, also require the `unittest` status check from the existing workflow. These are GitHub settings, not files in this repo.
+4. **Workflow approval** — by default GitHub requires a user with write access to approve before Actions workflows run on Copilot-authored PRs; use the "Approve and run workflows" button on the PR.
 
 Exact menu names and defaults may change; see the GitHub Docs for the Copilot coding agent for the current settings.
 
@@ -252,7 +226,7 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 │   ├── copilot-instructions.md                        # Copilot coding-agent instructions for this repo
 │   ├── ISSUE_TEMPLATE/factory-change.yml              # Issue form for factory-repo changes
 │   ├── pull_request_template.md                       # PR template (summary, issue, evidence, docs)
-│   └── workflows/tests.yml                            # CI: unittest suite for PRs/pushes to dev (not yet present; maintainer adds it)
+│   └── workflows/tests.yml                            # CI: Python 3.12 unittest suite for PRs/pushes to dev
 ├── specs/                                             # Historic user stories (specs/01-xyz.md)
 ├── logs/                                              # Evaluation & token cost logs (model-eval.jsonl)
 ├── src/                                               # Production application code
