@@ -64,6 +64,26 @@ class TestTaskExtractorCLI(unittest.TestCase):
         finally:
             Path(tmp_path).unlink(missing_ok=True)
 
+    def test_stdin_input_numbered_text_output(self):
+        result = subprocess.run(
+            [sys.executable, "-m", "src.task_extractor.cli"],
+            input="- [ ] Learn Antigravity\n- [x] Installed\n* [ ] Write tests\n",
+            capture_output=True,
+            text=True
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "1. Learn Antigravity\n2. Write tests\n")
+
+    def test_stdin_input_json_output(self):
+        result = subprocess.run(
+            [sys.executable, "-m", "src.task_extractor.cli", "--json"],
+            input="- [ ] Task Alpha\n- [x] Task Done\n- [ ] Task Beta\n",
+            capture_output=True,
+            text=True
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout), ["Task Alpha", "Task Beta"])
+
     def test_req2_file_not_found(self):
         result = subprocess.run(
             [sys.executable, "-m", "src.task_extractor.cli", "non_existent_file.md"],
