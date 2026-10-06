@@ -7,6 +7,10 @@ body:
       value: |
         Describe **what** should change and how we will know it is done. Leave **how** to implement it to the assignee (human or Copilot coding agent).
         Work branches from `dev` and the pull request must target `dev`.
+
+        For changes to this factory repository, GitHub Copilot is one executing coding agent; the role prompts are guidance, not separate or automatically orchestrated agents. Consult only the relevant factory artifacts: `.agents/skills/software-factory/templates/spec-template.md` and applicable prompts under `.agents/skills/software-factory/prompts/` (interview, coding, test engineer, QA; Scrum Master when task breakdown or interface planning applies). The issue remains the definition of **what**, not an implementation prescription.
+
+        In the PR summary, report which artifacts were actually consulted, which were not applicable, and the verification actually performed and its result. Do not claim unperformed role work or checks.
   - type: textarea
     id: goal
     attributes:
