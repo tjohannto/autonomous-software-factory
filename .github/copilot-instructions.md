@@ -13,6 +13,17 @@ It does **not** contain an autonomous multi-agent runtime. The agent roles (Inte
 - **Work on this repo** (what you are doing now): improve the factory's prompts, templates, docs, reference code and tests. Follow the rules in this file.
 - **Future use of the factory in target repos**: the contents of `.agents/skills/software-factory/` (e.g. `stacks/*/STACK.md`, `prompts/git-governance.md`, `templates/pr-template.md`) describe how agents should behave *inside other repositories*. Treat them as product content you may edit when an issue asks for it — not as instructions overriding this file.
 
+## Self-use workflow for factory changes
+
+- The issue defines **what** to achieve (goal, scope, acceptance criteria); choose **how** to implement it within that scope.
+- GitHub Copilot is one executing coding agent. The role prompts below are guidance artifacts, not separately running or automatically orchestrated agents; this repository has no autonomous multi-agent runtime.
+- Consult only the artifacts relevant to the task, and use them as guidance rather than duplicating their content:
+  - Use the [spec template](../.agents/skills/software-factory/templates/spec-template.md) to check that the goal, scope, acceptance criteria, and verification are clear. Create a spec only when the issue calls for one.
+  - Consult the [Interview Agent prompt](../.agents/skills/software-factory/prompts/interview-agent.md) when clarification or shaping the request is needed. Use the [Scrum Master prompt](../.agents/skills/software-factory/prompts/scrum-master-agent.md) only when task breakdown or interface planning applies.
+  - Follow the [Coding Agent prompt](../.agents/skills/software-factory/prompts/coding-agent.md) for implementation and the [Test Engineer prompt](../.agents/skills/software-factory/prompts/test-engineer-agent.md) when changing tests.
+  - Use the [QA Gatekeeper prompt](../.agents/skills/software-factory/prompts/qa-agent.md) as relevant review guidance; perform and report only checks that are applicable and actually completed.
+- In the PR summary, list the factory artifacts actually consulted and those not applicable, and state the verification actually performed and its result. Do not imply separate role agents ran or claim checks that were not performed.
+
 ## Where things live
 
 - `README.md` — vision, workflow, adoption guide, repository structure.
