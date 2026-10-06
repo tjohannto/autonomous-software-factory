@@ -1,10 +1,14 @@
 import unittest
 import subprocess
 import json
+import io
 import sys
 import tempfile
+from contextlib import redirect_stderr
 from pathlib import Path
+from unittest.mock import patch
 
+from src.task_extractor import cli
 from src.task_extractor.extractor import extract_tasks
 
 class TestTaskExtractorUnit(unittest.TestCase):
@@ -92,6 +96,42 @@ class TestTaskExtractorCLI(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 1)
         self.assertTrue("Error" in result.stderr or "not found" in result.stderr.lower())
+
+    def test_file_access_errors_have_no_traceback(self):
+        with tempfile.NamedTemporaryFile("w+", delete=False, suffix=".md") as tmp:
+            tmp_path = tmp.name
+
+        try:
+            for method in ("is_file", "read_text"):
+                with self.subTest(method=method):
+                    stderr = io.StringIO()
+                    with patch.object(Path, method, side_effect=PermissionError("read denied")), \
+                            patch("sys.argv", ["task_extractor", tmp_path]), \
+                            redirect_stderr(stderr):
+                        exit_code = cli.main()
+
+                    self.assertEqual(exit_code, 1)
+                    self.assertIn("Error: Could not read file", stderr.getvalue())
+                    self.assertNotIn("Traceback", stderr.getvalue())
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
+
+    def test_invalid_utf8_file_has_no_traceback(self):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".md") as tmp:
+            tmp.write(b"\xff")
+            tmp_path = tmp.name
+
+        try:
+            result = subprocess.run(
+                [sys.executable, "-m", "src.task_extractor.cli", tmp_path],
+                capture_output=True,
+                text=True
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("Error: Could not read file", result.stderr)
+            self.assertNotIn("Traceback", result.stderr)
+        finally:
+            Path(tmp_path).unlink(missing_ok=True)
 
     def test_req3_json_output(self):
         with tempfile.NamedTemporaryFile("w+", delete=False, suffix=".md") as tmp:
