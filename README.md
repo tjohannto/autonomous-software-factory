@@ -187,6 +187,8 @@ The Software Factory is organized in three distinct architectural layers to elim
 
 This section is about contributing to **this factory repository itself** with the GitHub Copilot coding agent. It is separate from using the factory in your *target* repositories (see "How to Use" above). The factory roles described in this README are prompts and templates — this repository does not ship an autonomous multi-agent runtime.
 
+For the platform-neutral target process for Epic and dependent Work Package handoffs, gates, and approvals, see the [Agent Collaboration Contract](docs/agent-collaboration-contract.md).
+
 ### Repository files
 
 | File | Purpose |
@@ -222,6 +224,8 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 ```text
 .
 ├── README.md                                          # System documentation
+├── docs/
+│   └── agent-collaboration-contract.md                 # Platform-neutral Epic / work-package process contract
 ├── .github/
 │   ├── copilot-instructions.md                        # Copilot coding-agent instructions for this repo
 │   ├── ISSUE_TEMPLATE/factory-change.yml              # Issue form for factory-repo changes
