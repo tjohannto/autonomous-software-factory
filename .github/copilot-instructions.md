@@ -18,6 +18,7 @@ It does **not** contain an autonomous multi-agent runtime. The agent roles (Inte
 - The issue defines **what** to achieve (goal, scope, acceptance criteria); choose **how** to implement it within that scope.
 - GitHub Copilot is one executing coding agent. The role prompts below are guidance artifacts, not separately running or automatically orchestrated agents; this repository has no autonomous multi-agent runtime.
 - Consult only the artifacts relevant to the task, and use them as guidance rather than duplicating their content:
+  - Use the [agent collaboration contract](../docs/agent-collaboration-contract.md) when an Epic needs dependent work packages, explicit handoffs, or role/state gates.
   - Use the [spec template](../.agents/skills/software-factory/templates/spec-template.md) to check that the goal, scope, acceptance criteria, and verification are clear. Create a spec only when the issue calls for one.
   - Consult the [Interview Agent prompt](../.agents/skills/software-factory/prompts/interview-agent.md) when clarification or shaping the request is needed. Use the [Scrum Master prompt](../.agents/skills/software-factory/prompts/scrum-master-agent.md) only when task breakdown or interface planning applies.
   - Follow the [Coding Agent prompt](../.agents/skills/software-factory/prompts/coding-agent.md) for implementation and the [Test Engineer prompt](../.agents/skills/software-factory/prompts/test-engineer-agent.md) when changing tests.
