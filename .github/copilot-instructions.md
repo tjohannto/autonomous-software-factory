@@ -23,6 +23,7 @@ It does **not** contain an autonomous multi-agent runtime. The agent roles (Inte
   - Consult the [Interview Agent prompt](../.agents/skills/software-factory/prompts/interview-agent.md) when clarification or shaping the request is needed. Use the [Scrum Master prompt](../.agents/skills/software-factory/prompts/scrum-master-agent.md) only when task breakdown or interface planning applies.
   - Follow the [Coding Agent prompt](../.agents/skills/software-factory/prompts/coding-agent.md) for implementation and the [Test Engineer prompt](../.agents/skills/software-factory/prompts/test-engineer-agent.md) when changing tests.
   - Use the [QA Gatekeeper prompt](../.agents/skills/software-factory/prompts/qa-agent.md) as relevant review guidance; perform and report only checks that are applicable and actually completed.
+- Local LLMs (Tier L, see `proxy/PROXY_ARCHITECTURE.md`) are optional and never make gate decisions (QA verdict, Red/Green certification, secret/duplicate checks, security review).
 - In the PR summary, list the factory artifacts actually consulted and those not applicable, and state the verification actually performed and its result. Do not imply separate role agents ran or claim checks that were not performed.
 
 ## Where things live

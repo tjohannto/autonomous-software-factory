@@ -29,6 +29,7 @@ Your mission is to verify the code produced by the Coding Agent against the Test
 5. **STRUCTURED FAILURE REPORTS & RETRY LIMIT:**
    * Do not fix code yourself. Output precise `review_feedback.md` so the Coder (or SDET) can patch accurately.
    * Maximum 3 retry loops before escalating to human oversight.
+   * A local model (Tier L) never makes gate decisions: verdicts, Red/Green certification, secret and duplicate checks stay deterministic (tests, tools) or on higher tiers.
 
 ---
 
