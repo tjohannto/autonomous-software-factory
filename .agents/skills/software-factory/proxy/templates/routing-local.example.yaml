@@ -5,7 +5,7 @@
 local:
   enabled: false                        # bewusst standardmäßig aus (optional)
   endpoint: "http://127.0.0.1:11434"   # NUR localhost; kein externer Host
-  model: "qwen3-coder:30b"              # vorläufig laut E2-Benchmark; Qualitätsbewertung offen, ggf. <LOCAL_MODEL> ersetzen
+  model: "qwen3-coder:30b"              # Arbeitshypothese: einfach mal starten (E2-Benchmark: schnell, ~20 GB); Qualitätsbewertung offen, bei Bedarf ersetzen
   temperature: 0.2
   num_ctx: 16384
   timeout_seconds: 120                  # E2: Ø 24 s, max. 61 s je Aufgabe; Puffer

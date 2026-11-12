@@ -226,6 +226,7 @@ The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:1143
 * **Suitable:** low-risk, easily checked tasks (commit-message drafts, log/test-output summaries, spec formatting, boilerplate, context condensing for the Scrum Master).
 * **Never local (hard rule):** QA gatekeeper verdict, secret and duplicate checks, Red/Green certification, security review.
 * **Escalation:** at most one local attempt; if schema/tests/lint fail, the task goes to Tier 3 or 2.
+* **Working hypothesis:** just start with `qwen3-coder:30b`, collect experience via the log fields, swap the model if needed.
 * **Config:** `.agents/skills/software-factory/proxy/templates/routing-local.example.yaml` (localhost only, no credentials).
 * **Concept & logging:** [`PROXY_ARCHITECTURE.md`](.agents/skills/software-factory/proxy/PROXY_ARCHITECTURE.md), `model-eval-schema.json` (optional fields `runtime`, `local_latency_ms`, `escalated_from_local`, `estimated_tokens_saved`).
 

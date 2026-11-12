@@ -22,7 +22,7 @@ Drei Cloud-Tiers (1–3) plus die optionale lokale Stufe **Tier L**, die in der 
 ## 🏠 Tier L (Local) – optionale, kostenfreie Stufe
 
 Tier L ist ein lokal betriebenes Modell (Referenz: Ollama auf `127.0.0.1:11434`, Modell `qwen3-coder:30b`; Messwerte und
-Einschränkungen: lokale Benchmark-Notiz E2, Qualitätsbewertung dort noch offen). Es ist **optional** und ändert die
+Einschränkungen: lokale Benchmark-Notiz E2, Qualitätsbewertung dort noch offen). **Arbeitshypothese:** mit `qwen3-coder:30b` einfach starten, Erfahrungen über das Logging (`local_latency_ms`, `escalated_from_local`) sammeln und das Modell bei Bedarf austauschen. Es ist **optional** und ändert die
 Architektur nicht: Ohne Tier L gilt das Routing oben unverändert. Konfiguration: [`templates/routing-local.example.yaml`](templates/routing-local.example.yaml).
 
 ### Eignung
