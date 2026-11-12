@@ -18,7 +18,7 @@ This skill provides the reusable foundation for an autonomous, cost-optimized So
 
 ## Cost & Model Optimization
 
-* **[LLM-Model Proxy & Cost Router](proxy/PROXY_ARCHITECTURE.md):** Distributes tasks across 3 model tiers (Tier 1: Heavyweight, Tier 2: Workhorse, Tier 3: Utility) with dynamic escalation and cost/quality logging (`proxy/templates/model-eval-schema.json`).
+* **[LLM-Model Proxy & Cost Router](proxy/PROXY_ARCHITECTURE.md):** Distributes tasks across 3 model tiers (Tier 1: Heavyweight, Tier 2: Workhorse, Tier 3: Utility, plus optional Tier L: Local for low-risk tasks, never for gate decisions) with dynamic escalation and cost/quality logging (`proxy/templates/model-eval-schema.json`).
 
 ## Autonomous Workflow (Hardened)
 

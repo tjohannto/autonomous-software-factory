@@ -1,0 +1,34 @@
+# Beispiel/Template: optionale lokale Stufe "Tier L" (siehe ../PROXY_ARCHITECTURE.md)
+# Enthält keine Zugangsdaten. Das Repo liefert keine Laufzeit; die Datei ist Vorlage für den eigenen Proxy/Orchestrator.
+# Kopieren nach routing-local.yaml (nicht committen, falls projektspezifisch angepasst).
+
+local:
+  enabled: false                        # bewusst standardmäßig aus (optional)
+  endpoint: "http://127.0.0.1:11434"   # NUR localhost; kein externer Host
+  model: "qwen3-coder:30b"              # vorläufig laut E2-Benchmark; Qualitätsbewertung offen, ggf. <LOCAL_MODEL> ersetzen
+  temperature: 0.2
+  num_ctx: 16384
+  timeout_seconds: 120                  # E2: Ø 24 s, max. 61 s je Aufgabe; Puffer
+  max_attempts: 1                       # genau ein lokaler Versuch, keine Schleifen
+  on_unreachable: route_as_without_tier_l
+
+# Zuordnung Aufgabe -> Tier. "L" = lokal versuchen, danach bei Fehlschlag escalate_to.
+routing:
+  COMMIT_MESSAGE:         { tier: L, escalate_to: 3 }
+  LOG_SUMMARY:            { tier: L, escalate_to: 3 }   # inkl. Testausgaben
+  SPEC_FORMAT:            { tier: L, escalate_to: 3 }
+  PR_FORMAT:              { tier: L, escalate_to: 3 }
+  BOILERPLATE:            { tier: L, escalate_to: 2 }
+  CONTEXT_CONDENSE:       { tier: L, escalate_to: 2 }   # Scrum Master
+
+# Pflichtprüfung des lokalen Ergebnisses; Nichtbestehen => sofortige Eskalation.
+validation:
+  checks: [schema, tests, lint]
+
+# HARTE REGEL: nie lokal. Deterministisch (Tests/Tools) oder höhere Tiers; Mensch entscheidet.
+excluded_tasks:
+  - QA_GATEKEEPER_VERDICT
+  - SECRET_SCAN
+  - DUPLICATE_CHECK
+  - RED_GREEN_CERTIFICATION
+  - SECURITY_REVIEW

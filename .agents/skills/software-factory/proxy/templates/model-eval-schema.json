@@ -7,10 +7,21 @@
     "task_id": { "type": "string" },
     "task_type": { 
       "type": "string", 
-      "enum": ["INTERVIEW_PO", "KICKOFF_SPLIT", "CODE_GEN", "TEST_SDET", "BUGFIX", "PR_FORMAT"] 
+      "enum": ["INTERVIEW_PO", "KICKOFF_SPLIT", "CODE_GEN", "TEST_SDET", "BUGFIX", "PR_FORMAT",
+              "COMMIT_MESSAGE", "LOG_SUMMARY", "SPEC_FORMAT", "BOILERPLATE", "CONTEXT_CONDENSE"] 
     },
     "model_used": { "type": "string" },
-    "tier": { "type": "integer", "enum": [1, 2, 3] },
+    "tier": {
+      "description": "1-3 = Cloud-Tiers; \"L\" = optionale lokale Stufe (Tier L)",
+      "oneOf": [
+        { "type": "integer", "enum": [1, 2, 3] },
+        { "type": "string", "enum": ["L"] }
+      ]
+    },
+    "runtime": { "type": "string", "enum": ["local", "cloud"] },
+    "local_latency_ms": { "type": "integer", "minimum": 0 },
+    "escalated_from_local": { "type": "boolean" },
+    "estimated_tokens_saved": { "type": "integer", "minimum": 0 },
     "tokens": {
       "type": "object",
       "properties": {
