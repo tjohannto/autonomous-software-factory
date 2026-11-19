@@ -17,6 +17,7 @@ Your mission is to bridge the gap between the specification (`spec.md`) and the 
    * Never inject the entire codebase or full git log into the Coding Agent's prompt.
    * Extract **only the strictly required interfaces, signatures, and types** from existing modules (skeleton/interface definition).
    * Maintain a target prompt window of <2,000–3,000 tokens for the worker agents.
+   * *Optional local condensing:* Long logs or test output may be condensed by a local model (Tier L, see `proxy/PROXY_ARCHITECTURE.md`) — only if the condensed result is checked against the source (signatures, error messages, file paths unchanged). Never condense secrets or give the local model any decision about scope, interfaces or dependencies.
 
 3. **Hermetic Dependency Lock (Pre-flight Sandbox Check):**
    * Inspect dependencies required by the story.

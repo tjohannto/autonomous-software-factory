@@ -24,10 +24,14 @@ def main() -> int:
     content = ""
     if args.file:
         file_path = Path(args.file)
-        if not file_path.exists() or not file_path.is_file():
-            sys.stderr.write(f"Error: File '{args.file}' not found.\n")
+        try:
+            if not file_path.exists() or not file_path.is_file():
+                sys.stderr.write(f"Error: File '{args.file}' not found.\n")
+                return 1
+            content = file_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            sys.stderr.write(f"Error: Could not read file '{args.file}': {error}\n")
             return 1
-        content = file_path.read_text(encoding="utf-8")
     else:
         if sys.stdin.isatty():
             parser.print_help(sys.stderr)

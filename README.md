@@ -187,6 +187,8 @@ The Software Factory is organized in three distinct architectural layers to elim
 
 This section is about contributing to **this factory repository itself** with the GitHub Copilot coding agent. It is separate from using the factory in your *target* repositories (see "How to Use" above). The factory roles described in this README are prompts and templates — this repository does not ship an autonomous multi-agent runtime.
 
+For the platform-neutral target process for Epic and dependent Work Package handoffs, gates, and approvals, see the [Agent Collaboration Contract](docs/agent-collaboration-contract.md).
+
 ### Repository files
 
 | File | Purpose |
@@ -217,11 +219,24 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 
 ---
 
+## 🏠 Optional: Local LLM Tier
+
+The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:11434`) as a free **Tier L** in front of Tier 3. This is a routing option, not a runtime: the repository ships only concept, config template and log schema.
+
+* **Suitable:** low-risk, easily checked tasks (commit-message drafts, log/test-output summaries, spec formatting, boilerplate, context condensing for the Scrum Master).
+* **Never local (hard rule):** QA gatekeeper verdict, secret and duplicate checks, Red/Green certification, security review.
+* **Escalation:** at most one local attempt; if schema/tests/lint fail, the task goes to Tier 3 or 2.
+* **Working hypothesis:** just start with `qwen3-coder:30b`, collect experience via the log fields, swap the model if needed.
+* **Config:** `.agents/skills/software-factory/proxy/templates/routing-local.example.yaml` (localhost only, no credentials).
+* **Concept & logging:** [`PROXY_ARCHITECTURE.md`](.agents/skills/software-factory/proxy/PROXY_ARCHITECTURE.md), `model-eval-schema.json` (optional fields `runtime`, `local_latency_ms`, `escalated_from_local`, `estimated_tokens_saved`).
+
 ## 📁 Repository Structure
 
 ```text
 .
 ├── README.md                                          # System documentation
+├── docs/
+│   └── agent-collaboration-contract.md                 # Platform-neutral Epic / work-package process contract
 ├── .github/
 │   ├── copilot-instructions.md                        # Copilot coding-agent instructions for this repo
 │   ├── ISSUE_TEMPLATE/factory-change.yml              # Issue form for factory-repo changes
@@ -230,7 +245,7 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 ├── specs/                                             # Historic user stories (specs/01-xyz.md)
 ├── logs/                                              # Evaluation & token cost logs (model-eval.jsonl)
 ├── src/                                               # Production application code
-├── tests/                                             # Independent test suites
+├── tests/                                             # Independent test suites (incl. model-eval schema check)
 └── .agents/
     └── skills/
         └── software-factory/
@@ -246,9 +261,10 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
             │   ├── qa-agent.md                        # QA Gatekeeper (Runner, TDD Certifier, Reuse Guard)
             │   └── git-governance.md                  # Lifecycle, Conventional Commits & Release Rules
             ├── proxy/                                 # 💰 LLM PROXY & COST CONTROLLING
-            │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing & escalation concept
+            │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing (+ optional Tier L) & escalation concept
             │   └── templates/
-            │       └── model-eval-schema.json         # JSON schema for token costs & QA tracking
+            │       ├── model-eval-schema.json         # JSON schema for token costs & QA tracking
+            │       └── routing-local.example.yaml     # Optional local-LLM (Tier L) routing template
             └── extensions/                            # 🚀 MODULAR DOMAIN OVERLAYS (Layer 1)
                 └── domain-webapp/
                     ├── EXTENSION.md                   # WebApp architecture & Contract-First doc
