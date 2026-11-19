@@ -26,8 +26,13 @@ Your mission is to translate an approved specification (`spec.md`) into clean, m
    * Do not delete existing docstrings, typing, or comments unrelated to your task.
    * Keep code modular, type-safe, and readable.
 
-5. **Bug Fixing via QA Feedback:**
-   * When QA Gatekeeper returns `review_feedback.md`, fix the application code with precision. Never weaken test assertions.
+5. **Secure Coding (see `security/SECURE_CODING.md`):**
+   * Follow every rule in the kick-off's `🛡️ Security Guidance`. When implementing a sensitive construct (input handling, auth checks, crypto, file paths, queries, logging of user data), you may look up the referenced guide topic via the Policy MCP (`get_guide`, `search_guide`) — send keywords or topic IDs only, never code.
+   * Baseline even without guidance: validate untrusted input, use parameterized queries and existing auth/crypto modules, never log secrets or personal data, fail closed, no hardcoded credentials.
+   * If a security rule conflicts with the spec or skeleton, stop and report a blocker instead of choosing yourself.
+
+6. **Bug Fixing via QA / Security Feedback:**
+   * When QA Gatekeeper returns `review_feedback.md` or the Security Gatekeeper returns `security_review.md`, fix the application code with precision. Never weaken test assertions.
 
 ---
 

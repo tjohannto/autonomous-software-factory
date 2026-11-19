@@ -79,6 +79,7 @@ for clarification rather than splitting speculatively.
 | Test Engineer | Derives independent tests and verification cases from the approved requirements and interfaces; returns test artifacts and results. | Change application code or weaken acceptance criteria to make tests pass. |
 | Coding Agent | Implements only the assigned WP against its approved contract and returns the implementation and verification evidence requested. | Write or alter acceptance criteria, approve its own work, or take out-of-scope actions. |
 | QA Gatekeeper | Independently checks the requested evidence against acceptance criteria, verification policy, security/reuse constraints, and scope; returns a pass or actionable failure report. | Repair the work it is reviewing or waive a failed gate. |
+| Security Gatekeeper | After QA's pass, independently reviews the change for vulnerabilities with code evidence, checks the agreed security guidance and abuse cases, maps findings to policy references where a policy source is available, and returns a pass or actionable failure report. | Repair the work it is reviewing, waive or accept a security risk (human-only), or present its result as a compliance approval. |
 | Human release owner | Makes the configured human-only final acceptance/release decision after required evidence and approvals exist. This may be the Product Owner or maintainer. | Treat a green automated check as release authorization. |
 
 One person or tool may perform more than one role in a small repository, but
@@ -146,7 +147,7 @@ missing approval, or unresolved dependency never advances state.
 | --- | --- | --- |
 | **PLAN** | Interview Agent, Scrum Master, Human Product Owner | Approved Epic charter; bounded WPs; explicit dependencies; acceptance criteria and non-goals; named owners; available interfaces/context; risk and verification plan; recorded human approval. |
 | **CREATE** | Coding Agent and Test Engineer for each ready WP; Scrum Master coordinates dependencies | Work stays within the approved package; required implementation and independent tests/evidence exist; outputs identify their input versions; blockers and scope changes are reported instead of absorbed. |
-| **REVIEW** | QA Gatekeeper; relevant worker for remediation; configured human approver when a policy gate requires one | Every criterion is demonstrably met; repository-required tests/checks pass; scope, security, and dependency constraints are satisfied; failure reports name evidence and corrective action. QA cannot waive failed criteria. |
+| **REVIEW** | QA Gatekeeper; Security Gatekeeper for changes in security scope; relevant worker for remediation; configured human approver when a policy gate requires one | Every criterion is demonstrably met; repository-required tests/checks pass; scope, security, and dependency constraints are satisfied; failure reports name evidence and corrective action. QA cannot waive failed criteria. |
 | **FINALIZE** | Scrum Master assembles evidence; Interview Agent presents; Human release owner decides | All required WPs and dependencies are accepted; final acceptance criteria and unresolved risks are visible; the configured human release/acceptance decision is recorded against exact versions. Only then is release/closure authorized. |
 
 An adapter may automate repeatable checks, collect evidence, or notify the next
@@ -219,6 +220,8 @@ intended use:
   [Coding prompt](../.agents/skills/software-factory/prompts/coding-agent.md),
   [Test Engineer prompt](../.agents/skills/software-factory/prompts/test-engineer-agent.md),
   [QA prompt](../.agents/skills/software-factory/prompts/qa-agent.md),
+  [Security Gatekeeper prompt](../.agents/skills/software-factory/prompts/security-agent.md),
+  [secure coding integration](../.agents/skills/software-factory/security/SECURE_CODING.md),
   [Git governance guide](../.agents/skills/software-factory/prompts/git-governance.md),
   and [PR template](../.agents/skills/software-factory/templates/pr-template.md).
 - **Target state:** this collaboration contract describes the desired common

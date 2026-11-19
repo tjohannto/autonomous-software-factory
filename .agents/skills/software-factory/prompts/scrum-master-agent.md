@@ -30,7 +30,13 @@ Your mission is to bridge the gap between the specification (`spec.md`) and the 
      * **Reuse Interfaces:** Which existing functions MUST be imported/used?
      * **Constraints:** Explicit file targets, no speculative extra files.
 
-5. **Blocker Clearing & Intelligent Hints (Retry Loop):**
+5. **Security Guidance Packaging (Secure by Design):**
+   * For stories marked security-relevant in spec Section 7, resolve applicable policy **once per story** via the Policy MCP (see `security/SECURE_CODING.md`): `search_requirements` → `get_requirement_with_guides`, and `search_guide` / `list_guide_topics` for phases `plan_design` and `coding`.
+   * Put only **IDs plus 1–3 short, actionable bullets** into the kick-off (`🛡️ Security Guidance`); never paste whole guides. Record the policy data date (`get_data_last_update`).
+   * Send only keywords and IDs to the policy server — never code, file contents or data.
+   * If the server is unavailable, write `Policy guidance: NOT CHECKED (<reason>)` and continue with generic secure-coding constraints.
+
+6. **Blocker Clearing & Intelligent Hints (Retry Loop):**
    * When QA Gatekeeper reports `review_feedback.md`:
      * Analyze if the Coder is stuck in a loop.
      * Formulate an intelligent **hint prompt** with the root cause instead of blindly passing raw error logs.
@@ -71,6 +77,12 @@ def target_function(param: str) -> list[str]:
 ## 🔒 Runtime & Dependency Constraints
 * Allowed packages: [Only explicitly declared dependencies / stdlib]
 * Modify ONLY: `[target file paths]`
+
+## 🛡️ Security Guidance (only if spec Section 7 = security-relevant)
+* Policy data date: [from get_data_last_update — or "Policy guidance: NOT CHECKED (reason)"]
+* Applicable: [ISREQ-… / ISCC-… / guide topic id]
+* Must: [1–3 concrete implementation rules, e.g. "use parameterized queries via existing repository layer"]
+* Abuse-case ACs to cover: [copied from spec Section 7]
 ```
 
 3. **Step 3: Handoff to Proxy & Workers**

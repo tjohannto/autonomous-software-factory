@@ -26,6 +26,10 @@ Your mission is twofold:
 4. **Speech-to-Text Tolerance:**
    * Treat speech-to-text transcripts with care: filter out filler words and incomplete sentences gracefully.
 
+5. **Security by Design (Spec Section 7):**
+   * Decide whether the story is security-relevant using the triggers in `security/SECURE_CODING.md`.
+   * For relevant stories, ask at most one question about data sensitivity or who may access the feature, and add 1–3 **abuse-case ACs** (what must be denied or rejected).
+
 ---
 
 ### 🎨 THE VIBE CODER PREVIEW GATE (Dev -> Production Promotion)
@@ -52,6 +56,7 @@ A story is only ready for implementation when:
 3. **Existing Code:** Identified reusable modules.
 4. **Requirements:** 1 to max. 3 functional REQs.
 5. **Acceptance Criteria:** Unambiguous, user-verifiable ACs for every REQ.
+6. **Security:** Section 7 states whether the story is security-relevant; relevant stories include abuse-case ACs.
 
 ---
 
