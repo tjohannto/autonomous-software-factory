@@ -8,21 +8,22 @@ Er sorgt dafür, dass jede Aufgabe an das **kostenoptimalste Modell** verteilt w
 
 ## 🎯 Die Modell-Tiers (Aufgabenverteilung)
 
-Drei Cloud-Tiers (1–3) plus die optionale lokale Stufe **Tier L**, die in der Reihenfolge vor Tier 3 steht.
+Drei Cloud-Tiers (1–3) plus die optionale lokale Stufe **Tier L**. Die Tabelle ist von teuer nach günstig sortiert; beim Routing
+wird von unten nach oben eskaliert (Tier L → 3 → 2 → 1). Lokal betriebene Modelle gehören immer zu Tier L, nie zu Tier 3.
 
 | Tier | Modell-Beispiele | Kosten / 1M Tokens (Richtwert) | Ideale Aufgaben |
 | :--- | :--- | :--- | :--- |
 | **Tier 1: Heavyweight** *(High Reasoning)* | Claude 3.5 Sonnet, GPT-4o, Gemini 1.5 Pro | \$3.00 – \$15.00 | • Epic-Zerlegung & Architektur<br>• Komplexe Refactorings über viele Dateien<br>• Eskalations-Stufe bei hartnäckigen QA-Fails |
 | **Tier 2: Workhorse** *(Mid / Efficient Code)* | GPT-4o-mini, Gemini 1.5 Flash, Claude 3.5 Haiku | \$0.15 – \$1.00 | • Standard User-Story Implementierung<br>• Test-Suite Generierung (SDET)<br>• Review-Feedback Auswertung |
+| **Tier 3: Utility / Fast** *(Low-Cost, Cloud)* | DeepSeek Coder, Llama 3 8B (gehostet), Gemini Flash-Lite | \$0.05 – \$0.10 | • Regex-Fixes & Syntax-Korrekturen<br>• Git Commit Messages & PR-Formatierung<br>• Diktat-/Voice-Bereinigung im Interview |
 | **Tier L: Local** *(optional, kostenfrei)* | Ollama, z. B. `qwen3-coder:30b` | \$0 (lokal) | • Siehe Abschnitt „Tier L (Local)“<br>• Nur risikoarme, leicht prüfbare Aufgaben |
-| **Tier 3: Utility / Fast** *(Low-Cost / Local)* | DeepSeek Coder, Llama 3 8B, Gemini Flash-Lite | \$0.05 – \$0.10 (oder lokal \$0) | • Regex-Fixes & Syntax-Korrekturen<br>• Git Commit Messages & PR-Formatierung<br>• Diktat-/Voice-Bereinigung im Interview |
 
 ---
 
 ## 🏠 Tier L (Local) – optionale, kostenfreie Stufe
 
-Tier L ist ein lokal betriebenes Modell (Referenz: Ollama auf `127.0.0.1:11434`, Modell `qwen3-coder:30b`; Messwerte und
-Einschränkungen: lokale Benchmark-Notiz E2, Qualitätsbewertung dort noch offen). **Arbeitshypothese:** mit `qwen3-coder:30b` einfach starten, Erfahrungen über das Logging (`local_latency_ms`, `escalated_from_local`) sammeln und das Modell bei Bedarf austauschen. Es ist **optional** und ändert die
+Tier L ist ein lokal betriebenes Modell (Referenz: Ollama auf `127.0.0.1:11434`, Modell `qwen3-coder:30b`; Richtwerte aus
+einem eigenen lokalen Benchmark, der nicht Teil dieses Repos ist: Ø ~24 s, max. ~61 s je Aufgabe, ~20 GB; Qualitätsbewertung noch offen). **Arbeitshypothese:** mit `qwen3-coder:30b` einfach starten, Erfahrungen über das Logging (`local_latency_ms`, `escalated_from_local`) sammeln und das Modell bei Bedarf austauschen. Es ist **optional** und ändert die
 Architektur nicht: Ohne Tier L gilt das Routing oben unverändert. Konfiguration: [`templates/routing-local.example.yaml`](templates/routing-local.example.yaml).
 
 ### Eignung
@@ -55,6 +56,8 @@ Diese Prüfungen bleiben deterministisch (Tests, Tools, Linter) oder laufen auf 
 * Die Eskalation wird geloggt (`escalated_from_local: true`); danach gelten die normalen Regeln für Tier 3 / 2.
 * Ist der lokale Endpoint nicht erreichbar, wird die Aufgabe ohne Versuch wie ohne Tier L geroutet.
 * Endpoint nur `localhost`; vertraulicher Code verlässt den Rechner nicht.
+* Die Ollama-API hat keine Authentifizierung. Der Dienst muss daher selbst nur auf `127.0.0.1` lauschen
+  (Standard; `OLLAMA_HOST` nicht auf `0.0.0.0` oder eine Netzwerk-Adresse setzen), sonst ist das Modell im Netz erreichbar.
 
 ### Zusätzliche Logfelder (optional, abwärtskompatibel)
 `tier` darf `"L"` sein; `runtime` (`local`/`cloud`), `local_latency_ms`, `escalated_from_local`, `estimated_tokens_saved`.
