@@ -4,11 +4,11 @@
 
 local:
   enabled: false                        # bewusst standardmäßig aus (optional)
-  endpoint: "http://127.0.0.1:11434"   # NUR localhost; kein externer Host
-  model: "qwen3-coder:30b"              # Arbeitshypothese: einfach mal starten (E2-Benchmark: schnell, ~20 GB); Qualitätsbewertung offen, bei Bedarf ersetzen
+  endpoint: "http://127.0.0.1:11434"   # NUR localhost; kein externer Host. Ollama selbst nur an 127.0.0.1 binden (OLLAMA_HOST nicht 0.0.0.0) – API ohne Auth
+  model: "qwen3-coder:30b"              # Arbeitshypothese: einfach mal starten (eigener lokaler Benchmark: schnell, ~20 GB); Qualitätsbewertung offen, bei Bedarf ersetzen
   temperature: 0.2
   num_ctx: 16384
-  timeout_seconds: 120                  # E2: Ø 24 s, max. 61 s je Aufgabe; Puffer
+  timeout_seconds: 120                  # lokaler Benchmark: Ø ~24 s, max. ~61 s je Aufgabe; Puffer
   max_attempts: 1                       # genau ein lokaler Versuch, keine Schleifen
   on_unreachable: route_as_without_tier_l
 

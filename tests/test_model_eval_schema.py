@@ -5,6 +5,8 @@ from pathlib import Path
 TEMPLATES = Path(__file__).resolve().parent.parent / ".agents/skills/software-factory/proxy/templates"
 
 ORIGINAL_REQUIRED = ["timestamp", "task_id", "task_type", "model_used", "tier", "tokens", "qa_result"]
+EXCLUDED_TASKS = ("QA_GATEKEEPER_VERDICT", "SECRET_SCAN", "DUPLICATE_CHECK",
+                  "RED_GREEN_CERTIFICATION", "SECURITY_REVIEW")
 
 
 class TestModelEvalSchema(unittest.TestCase):
@@ -46,9 +48,19 @@ class TestRoutingLocalExample(unittest.TestCase):
 
     def test_single_attempt_and_exclusions(self):
         self.assertIn("max_attempts: 1", self.text)
-        for task in ("QA_GATEKEEPER_VERDICT", "SECRET_SCAN", "DUPLICATE_CHECK",
-                     "RED_GREEN_CERTIFICATION", "SECURITY_REVIEW"):
+        for task in EXCLUDED_TASKS:
             self.assertIn(f"- {task}", self.text)
+
+    def test_routed_tasks_are_logged_task_types_and_never_excluded(self):
+        schema = json.loads((TEMPLATES / "model-eval-schema.json").read_text(encoding="utf-8"))
+        task_types = schema["properties"]["task_type"]["enum"]
+        routing = self.text.split("\nrouting:\n", 1)[1].split("\n\n", 1)[0]
+        routed = [line.split(":", 1)[0].strip() for line in routing.splitlines()
+                  if line.strip() and not line.lstrip().startswith("#")]
+        self.assertTrue(routed)
+        for task in routed:
+            self.assertIn(task, task_types)
+            self.assertNotIn(task, EXCLUDED_TASKS)
 
 
 if __name__ == "__main__":
