@@ -28,3 +28,11 @@ Directly mapped to requirements — verifiable from a user perspective:
 ## 6. Verification (QA Check)
 * **Command:** [e.g., python3 -m unittest discover -s tests -v / npm test]
 * **Expected Result:** [All regression tests AND new tests pass, zero linter warnings]
+
+## 7. Security Considerations (see `security/SECURE_CODING.md`)
+* **Security-relevant:** [Yes / No — which trigger? e.g. untrusted input, auth, personal data, new dependency]
+* **Data handled:** [e.g. none / internal / confidential / personal data]
+* **Abuse cases (as testable ACs):**
+  - [ ] [e.g. unauthenticated request is rejected with 401 and no data is returned]
+  - [ ] [e.g. malformed input is rejected without stack trace or internal paths in the output]
+* **Applicable policy (filled by Scrum Master, IDs only):** [e.g. ISREQ-…, guide topic `coding/input_validation/…` — or "Policy guidance: NOT CHECKED (reason)"]

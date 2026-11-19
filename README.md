@@ -49,6 +49,9 @@ A modular, evolvable Software Factory enabling software engineers to build and o
                  [ QA Gatekeeper Agent ] ◄── (All tests turn green; Anti-Duplication & Secret check)
                             │
                             ▼ [PASS]
+                 [ Security Gatekeeper ] ◄── (Evidence-based security review + ISMS policy mapping)
+                            │
+                            ▼ [PASS]
                  [ Pull Request to dev ]
                             │ Squash & Merge
                      [ dev / Staging ]
@@ -219,6 +222,16 @@ Exact menu names and defaults may change; see the GitHub Docs for the Copilot co
 
 ---
 
+## 🛡️ Secure Coding & Security Review
+
+Security is handled in two places, both described in [`security/SECURE_CODING.md`](.agents/skills/software-factory/security/SECURE_CODING.md):
+
+* **(a) While building:** the spec marks security-relevant stories and adds abuse-case ACs (Section 7); the Scrum Master packages applicable requirements and guide topics (IDs + short rules) into the kick-off; the Coding Agent follows them; the Test Engineer writes abuse-case tests.
+* **(b) In PR review:** after QA GREEN, the [Security Gatekeeper](.agents/skills/software-factory/prompts/security-agent.md) reviews the diff with code evidence, checks the kick-off guidance was implemented, maps findings to policy and blocks the merge on unresolved findings.
+* **Policy source (optional):** an MCP server such as `secure-coding-isms` (Bertelsmann ISMS + Arvato Systems Secure Coding Guide). Only IDs/keywords are sent — never code. Without it, artifacts say `Policy guidance: NOT CHECKED`.
+* **Credentials:** never in the repo — use a keychain-backed `headersHelper`, an env placeholder, a VS Code input prompt or a CI secret.
+* Results are guidance, **not a compliance approval**; risk acceptance stays a human decision.
+
 ## 🏠 Optional: Local LLM Tier
 
 The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:11434`) as a free **Tier L** in front of Tier 3. This is a routing option, not a runtime: the repository ships only concept, config template and log schema.
@@ -250,6 +263,8 @@ The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:1143
     └── skills/
         └── software-factory/
             ├── SKILL.md                               # Base skill definition
+            ├── security/
+            │   └── SECURE_CODING.md                   # Secure coding & policy (MCP) integration for build and review
             ├── templates/
             │   ├── spec-template.md                   # Lean spec template with "Code Reuse First"
             │   └── pr-template.md                     # Audited PR template (TDD, Skeletons, Previews)
@@ -259,6 +274,7 @@ The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:1143
             │   ├── coding-agent.md                    # Implementer (App code with mandatory reuse)
             │   ├── test-engineer-agent.md             # Independent SDET (Test suites & edge cases)
             │   ├── qa-agent.md                        # QA Gatekeeper (Runner, TDD Certifier, Reuse Guard)
+            │   ├── security-agent.md                  # Security Gatekeeper (PR security review & policy mapping)
             │   └── git-governance.md                  # Lifecycle, Conventional Commits & Release Rules
             ├── proxy/                                 # 💰 LLM PROXY & COST CONTROLLING
             │   ├── PROXY_ARCHITECTURE.md              # 3-Tier routing (+ optional Tier L) & escalation concept
@@ -303,3 +319,4 @@ The factory can optionally use a local model (e.g. via Ollama on `127.0.0.1:1143
 | **Coding Agent** | Application code implementation | **Follow Skeleton & Reuse First:** Search workspace before creating files; never write own tests. |
 | **Test Engineer Agent** | Test suite, AC coverage, edge cases | **Target Skeleton Signatures:** Never write app code; test objectively against the spec. |
 | **QA Gatekeeper** | TDD Certifier, Test Runner, Anti-Duplication Guard | **Red-Green TDD:** Confirm tests fail on stubs first, then pass on implementation; verify zero duplicates. |
+| **Security Gatekeeper** | PR security review & policy mapping | **Evidence-based:** Report only findings with code evidence; send policy server IDs/keywords only; never a compliance approval. |

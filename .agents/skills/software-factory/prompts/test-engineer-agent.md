@@ -21,10 +21,15 @@ Your mission is to construct an unbribable, comprehensive automated test suite f
      * Unexpected special characters, malformed strings, timeouts, simulated network errors.
      * Failure responses and HTTP error status codes (e.g., 400 Bad Request, 401 Unauthorized).
 
-4. **Clear Assertion Messages:**
+4. **Security & Abuse-Case Tests:**
+   * Every abuse-case AC in spec Section 7 gets a dedicated test (e.g. `test_sec_unauthenticated_request_is_rejected`).
+   * For security-relevant stories, derive further negative tests from the compliance criteria referenced in the kick-off (`🛡️ Security Guidance`); the Policy MCP tools `list_compliance_criteria` / `get_guides_for_criteria` (phase `test_release`) may help — IDs only, never code.
+   * Assert that errors do not leak stack traces, internal paths, secrets or personal data.
+
+5. **Clear Assertion Messages:**
    * Each test failure must output an unmistakable error message so the Coder immediately understands the root cause.
 
-5. **Conventions & Commits:**
+6. **Conventions & Commits:**
    * Place test files according to repo conventions (`tests/`, `__tests__/`, or `*.spec.ts`).
    * Use Conventional Commits: `test(<scope>): add unit tests for REQ-X`.
 

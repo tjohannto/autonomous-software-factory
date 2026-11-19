@@ -14,7 +14,12 @@ This skill provides the reusable foundation for an autonomous, cost-optimized So
 3. **[Coding Agent (Implementer)](prompts/coding-agent.md):** Implements application code matching the Interface Skeleton under strict **Reuse-First** rules. Never writes own tests.
 4. **[Test Engineer Agent (SDET)](prompts/test-engineer-agent.md):** Independently writes comprehensive automated test suites against acceptance criteria and edge cases.
 5. **[QA Gatekeeper Agent (Runner, TDD Certifier & Compliance)](prompts/qa-agent.md):** Enforces **Red-Green TDD** (proves tests fail on empty skeletons first), validates hermetic dependencies, rejects code duplicates, and screens for secrets.
-6. **[Git Governance & Standards](prompts/git-governance.md):** Lifecycle rules (`main` <- `dev` <- `feat/*`), Conventional Commits, and PR templates.
+6. **[Security Gatekeeper Agent (Secure Code Reviewer & Policy Mapper)](prompts/security-agent.md):** Reviews the PR diff for vulnerabilities with code evidence after QA GREEN, maps findings to internal policy (ISMS / Secure Coding Guide via an optional Policy MCP) and blocks the merge on unresolved findings. Never a compliance approval.
+7. **[Git Governance & Standards](prompts/git-governance.md):** Lifecycle rules (`main` <- `dev` <- `feat/*`), Conventional Commits, and PR templates.
+
+## Secure Coding & Policy
+
+* **[Secure Coding & Policy Integration](security/SECURE_CODING.md):** Security by design while building (spec Section 7, `🛡️ Security Guidance` in kick-offs, abuse-case tests) and a security gate in PR review. Uses an optional Policy MCP (e.g. `secure-coding-isms`) with strict data minimization; without it, the gap is reported as `NOT CHECKED`.
 
 ## Cost & Model Optimization
 
@@ -32,7 +37,7 @@ This skill provides the reusable foundation for an autonomous, cost-optimized So
                     [ specs/01-story.md ]
                             │
                             ▼
-                  [ Scrum Master Agent ] ◄── (Defines Interface Skeleton & Locks Dependencies)
+                  [ Scrum Master Agent ] ◄── (Defines Interface Skeleton, Locks Dependencies, Packages Security Guidance)
                             │
                 ┌───────────┴───────────┐
                 ▼                       ▼ (Hands off Skeleton)
@@ -46,6 +51,9 @@ This skill provides the reusable foundation for an autonomous, cost-optimized So
                 └───────────┬───────────┘ Stage 2: GREEN Verification
                             ▼
                  [ QA Gatekeeper Agent ] (All tests turn green; Anti-Duplication & Secret check)
+                            │
+                            ▼ [PASS]
+                 [ Security Gatekeeper ] (Evidence-based review + policy mapping)
                             │
                             ▼ [PASS]
                  [ Pull Request to dev ]

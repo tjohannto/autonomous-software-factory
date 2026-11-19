@@ -6,7 +6,7 @@ These instructions apply to GitHub Copilot (including the Copilot coding agent) 
 
 This repository contains the *Autonomous Software Factory*: a documentation- and prompt-based process kit (Spec-Driven Development, Scrum story slicing, Interface Skeletons, Red-Green TDD, Git governance, LLM cost routing) that teams copy into their own *target repositories*. It also contains a small reference implementation (`src/task_extractor/`) built with that process.
 
-It does **not** contain an autonomous multi-agent runtime. The agent roles (Interview, Scrum Master, Coding, Test Engineer, QA Gatekeeper) are defined as prompts and templates; do not describe or implement them as if a running orchestrator existed unless an issue explicitly asks for it.
+It does **not** contain an autonomous multi-agent runtime. The agent roles (Interview, Scrum Master, Coding, Test Engineer, QA Gatekeeper, Security Gatekeeper) are defined as prompts and templates; do not describe or implement them as if a running orchestrator existed unless an issue explicitly asks for it.
 
 ## Factory repo vs. target repos
 
@@ -23,6 +23,7 @@ It does **not** contain an autonomous multi-agent runtime. The agent roles (Inte
   - Consult the [Interview Agent prompt](../.agents/skills/software-factory/prompts/interview-agent.md) when clarification or shaping the request is needed. Use the [Scrum Master prompt](../.agents/skills/software-factory/prompts/scrum-master-agent.md) only when task breakdown or interface planning applies.
   - Follow the [Coding Agent prompt](../.agents/skills/software-factory/prompts/coding-agent.md) for implementation and the [Test Engineer prompt](../.agents/skills/software-factory/prompts/test-engineer-agent.md) when changing tests.
   - Use the [QA Gatekeeper prompt](../.agents/skills/software-factory/prompts/qa-agent.md) as relevant review guidance; perform and report only checks that are applicable and actually completed.
+  - For security-relevant changes, follow [secure coding integration](../.agents/skills/software-factory/security/SECURE_CODING.md) and use the [Security Gatekeeper prompt](../.agents/skills/software-factory/prompts/security-agent.md) as review guidance. If no policy MCP is available, say policy guidance was not checked.
 - Local LLMs (Tier L, see `proxy/PROXY_ARCHITECTURE.md`) are optional and never make gate decisions (QA verdict, Red/Green certification, secret/duplicate checks, security review).
 - In the PR summary, list the factory artifacts actually consulted and those not applicable, and state the verification actually performed and its result. Do not imply separate role agents ran or claim checks that were not performed.
 

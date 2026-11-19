@@ -24,6 +24,14 @@ Concise summary of changes (2–3 clear sentences).
 - [x] **Secret Screening:** No API keys, credentials, or insecure patterns in diff.
 - [x] **Scope Guard:** All "Out of Scope" items strictly respected.
 
+## 🛡️ Security Review (Security Gatekeeper)
+* **Security-relevant story:** [Yes / No — spec Section 7]
+* **Verdict:** [SECURITY_VERIFIED / SECURITY_FAILED / HUMAN_DECISION_REQUIRED] — report: `security_review.md`
+* **Policy data date:** [date — or "Policy guidance: NOT CHECKED (reason)"]
+- [ ] **Guidance implemented:** All `🛡️ Security Guidance` rules and abuse-case ACs implemented and tested.
+- [ ] **Open findings:** None ≥ Medium, or human risk decision recorded: [link]
+* *Policy references are guidance, not a compliance approval.*
+
 ## 🎨 Vibe Preview (Staging Verification)
 * **Preview Command / URL:** `[e.g., python3 -m src.task_extractor.cli sample.md --json]`
 * **Vibe Coder UX Sign-off:** [ ] Pending / [x] Approved for Production Release

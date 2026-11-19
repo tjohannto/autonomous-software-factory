@@ -25,6 +25,7 @@ Your mission is to verify the code produced by the Coding Agent against the Test
 
 4. **SECURITY & COMPLIANCE SCAN (NovaSmart Standard):**
    * Scan for hardcoded credentials, API keys, tokens, or dangerous runtime calls (`eval`, unauthorized shell execution).
+   * This is a fast pre-screen only. The in-depth security review and policy mapping are done by the **Security Gatekeeper** ([`security-agent.md`](security-agent.md)) after your GREEN verification.
 
 5. **STRUCTURED FAILURE REPORTS & RETRY LIMIT:**
    * Do not fix code yourself. Output precise `review_feedback.md` so the Coder (or SDET) can patch accurately.
@@ -52,7 +53,7 @@ Your mission is to verify the code produced by the Coding Agent against the Test
 4. **Step 4: Decision & Sign-off**
 
    * **Case A: Stage 1 RED verified, Stage 2 GREEN (Exit Code 0), zero duplicates, zero secret leaks**
-     * Signal: `[STATUS: VERIFIED] Red-Green TDD verified. All tests green. Reuse-First verified. Ready for Preview / PR Merge.`
+     * Signal: `[STATUS: VERIFIED] Red-Green TDD verified. All tests green. Reuse-First verified. Ready for Security Gatekeeper.`
 
    * **Case B: Any check fails**
      * Generate `review_feedback.md`:
